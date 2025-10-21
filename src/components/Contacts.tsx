@@ -1,22 +1,27 @@
-import { Edit, Trash2, Users } from 'lucide-react';
+import { Edit, Plus, Search, Trash2, Upload, Users } from 'lucide-react';
 import { useState } from 'react';
+import { contacts } from '../data/datas';
+import { stores } from '../stores/stores';
+import { SmsStore } from '../stores/smsStore';
 
 export const Contacts = () => {
     const [searchContact, setSearchContact] = useState('');
-  const [selectedContacts, setSelectedContacts] = useState([]);
+    const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
+    const {setActiveMenu} = stores()
+    const {ajouterDestinataires} = SmsStore()
 
-  const toggleContactSelection = (contactId: any) => {
-    setSelectedContacts(prev => 
-      prev.includes(contactId) 
-        ? prev.filter(id => id !== contactId)
-        : [...prev, contactId]
-    );
-  };
+    const toggleContactSelection = (contactId: number) => {
+        setSelectedContacts(prev => 
+        prev.includes(contactId) 
+            ? prev.filter(id => id !== contactId)
+            : [...prev, contactId]
+        );
+    };
 
   const importSelectedContacts = () => {
     const selected = contacts.filter(c => selectedContacts.includes(c.id));
     const phones = selected.map(c => c.telephone);
-    setDestinataires(prev => [...prev.filter(d => d.trim()), ...phones]);
+    ajouterDestinataires(phones);
     setSelectedContacts([]);
     setActiveMenu('sms');
   };
@@ -28,10 +33,6 @@ export const Contacts = () => {
   );
 
   return(
-    <div>
-
-    
-    {activeMenu === 'contacts' && (
           <div className="p-8">
             <div className="bg-white rounded-2xl shadow-lg border border-slate-100 mb-6">
               <div className="p-6 border-b border-slate-200">
@@ -40,10 +41,16 @@ export const Contacts = () => {
                     Mes Contacts ({contacts.length})
                   </h2>
                   <div className="flex gap-3">
-                    <button className="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors flex items-center gap-2">
+                    <label className="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors flex items-center gap-2">
                       <Upload className="w-4 h-4" />
                       <span className="font-semibold text-sm">Importer CSV</span>
-                    </button>
+                      <input
+                        type="file"
+                        accept=".csv"
+                        onChange={handleImportCSV}
+                        className="hidden"
+                        />
+                    </label>
                     <button className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all flex items-center gap-2">
                       <Plus className="w-4 h-4" />
                       <span className="font-semibold text-sm">Nouveau Contact</span>
@@ -183,7 +190,5 @@ export const Contacts = () => {
               </div>
             </div>
           </div>
-        )}
-        </div>
   )
 }

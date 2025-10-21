@@ -64,7 +64,7 @@ export const SmsStore = create<SmsState>((set, get) => ({
     try {
       // Simuler l'envoi (remplacez par votre API)
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      toast.success("SMS envoyé:")
+      toast.success("SMS envoyé:");
       console.log("SMS envoyé:", payload);
       //alert("SMS envoyé avec succès !");
 
@@ -76,27 +76,47 @@ export const SmsStore = create<SmsState>((set, get) => ({
       set({ loading: false });
     }
   },
-  handleImportCSV : (e) => {
-      const file = e.target.files?.[0];
+  handleImportCSV: (e) => {
+    const file = e.target.files?.[0];
 
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const csv = event.target?.result;
-          const lines = csv
-            ?.split("\n")
-            .map(({ line }: any) => line.trim())
-            .filter(({ line }: any) => line);
-          set({destinataires: lines});
-        };
-        reader.readAsText(file);
-      }
-    },
-    reInitialiser: () => set({contenu: "", destinataires: [""], datePlanifiee:"", expediteur: ""}),
-    setNotifications: (newNotif) => {
-      const {notifications} = get()
-      set({
-        notifications: [newNotif, ...notifications].slice(0, 10)
-      });
-}
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const result = event.target?.result;
+
+        // Vérifier que c'est bien une string
+        if (typeof result === "string") {
+          const lines = result
+            .split("\n")
+            .map((line) => line.trim())
+            .filter((line) => line); // Filtrer les lignes vides
+
+          set({ destinataires: lines });
+        }
+      };
+      reader.readAsText(file);
+    }
+  },
+  reInitialiser: () =>
+    set({
+      contenu: "",
+      destinataires: [""],
+      datePlanifiee: "",
+      expediteur: "",
+    }),
+  setNotifications: (newNotif) => {
+    const { notifications } = get();
+    set({
+      notifications: [newNotif, ...notifications].slice(0, 10),
+    });
+  },
+  ajouterDestinataires: (phones: string[]) => {
+    set((state) => ({
+      destinataires: [
+        ...state.destinataires.filter((d) => d.trim()),
+        ...phones,
+      ],
+    }));
+  },
 }));

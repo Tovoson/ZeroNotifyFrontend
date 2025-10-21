@@ -30,5 +30,6 @@ export interface SmsState {
   handleImportCSV : (e: any) => void;
   reInitialiser: () => void;
   setNotifications: (newNotif: Notification) => void;
+  ajouterDestinataires: (phones: string[]) => void;
 
 }
