@@ -30,7 +30,7 @@ const App: React.FC = () => {
           {/* Route protégée pour le tableau de bord */}
           <Route path="/home" element={<ProtectedRoute element={<Home />} />} />
           {/* Redirection par défaut */}
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </div>
     </Router>

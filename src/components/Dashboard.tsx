@@ -89,7 +89,12 @@ export const Dashboard = () => {
                       <span className="font-semibold">Envoyer SMS Groupé</span>
                     </div>
                   </button>
-                  <button className="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-xl p-4 text-left transition-all duration-200 hover:scale-105">
+                  <button 
+                    onClick={() => {
+                      setActiveMenu('contacts');
+                      setSmsType('contacts');
+                    }}
+                  className="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-xl p-4 text-left transition-all duration-200 hover:scale-105">
                     <div className="flex items-center gap-3">
                       <Users className="w-5 h-5" />
                       <span className="font-semibold">Gérer Contacts</span>

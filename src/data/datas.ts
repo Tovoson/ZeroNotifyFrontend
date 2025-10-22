@@ -7,6 +7,7 @@ import {
   TrendingUp,
   Clock,
 } from "lucide-react";
+import type { Contacts } from "../types/contactType";
 
 export const menuItems = [
   { id: "dashboard", label: "Dashboard", icon: BarChart3 },
@@ -104,4 +105,110 @@ export const tauxReussiteData = [
 
 export const notifs = [
     { id: 'Jan', title: "notif1", message: "mon message", time: "time", type: "nofits" },
+  ]
+
+export const historiqueData = [
+  { 
+      id: 1, 
+      expediteur: 'ZeroNotify', 
+      destinataires: ['+261340000001', '+261340000002', '+261340000003'],
+      contenu: 'Bienvenue chez ZeroNotify ! Profitez de notre service SMS premium.',
+      statut: 'envoye',
+      type: 'groupe',
+      total: 3,
+      envoyes: 3,
+      echecs: 0,
+      dateEnvoi: '2025-10-20 14:30:00',
+      datePlanifiee: null
+    },
+    { 
+      id: 2, 
+      expediteur: 'Marketing', 
+      destinataires: ['+261340000001'],
+      contenu: 'Nouvelle offre : -20% sur tous nos services !',
+      statut: 'envoye',
+      type: 'simple',
+      total: 1,
+      envoyes: 1,
+      echecs: 0,
+      dateEnvoi: '2025-10-20 12:15:00',
+      datePlanifiee: null
+    },
+    { 
+      id: 3, 
+      expediteur: 'Support', 
+      destinataires: ['+261340000005', '+261340000006'],
+      contenu: 'Votre demande a été traitée avec succès.',
+      statut: 'echec',
+      type: 'groupe',
+      total: 2,
+      envoyes: 0,
+      echecs: 2,
+      dateEnvoi: '2025-10-20 10:45:00',
+      datePlanifiee: null
+    },
+    { 
+      id: 4, 
+      expediteur: 'ZeroNotify', 
+      destinataires: ['+261340000001', '+261340000002', '+261340000003', '+261340000004'],
+      contenu: 'Rappel : Réunion demain à 10h. Merci de confirmer votre présence.',
+      statut: 'planifie',
+      type: 'planifie',
+      total: 4,
+      envoyes: 0,
+      echecs: 0,
+      dateEnvoi: null,
+      datePlanifiee: '2025-10-21 09:00:00'
+    },
+    { 
+      id: 5, 
+      expediteur: 'Notifications', 
+      destinataires: ['+261340000001', '+261340000002'],
+      contenu: 'Votre commande #12345 a été expédiée.',
+      statut: 'envoye',
+      type: 'groupe',
+      total: 2,
+      envoyes: 1,
+      echecs: 1,
+      dateEnvoi: '2025-10-19 16:20:00',
+      datePlanifiee: null
+    },
+]
+
+export const ContactData: Contacts[] = [
+    {
+      id: 1,
+      nom: "Jean Dupont",
+      telephone: "+261340000001",
+      groupe: "Clients",
+      date: "2025-10-15",
+    },
+    {
+      id: 2,
+      nom: "Marie Martin",
+      telephone: "+261340000002",
+      groupe: "Partenaires",
+      date: "2025-10-14",
+    },
+    {
+      id: 3,
+      nom: "Pierre Rakoto",
+      telephone: "+261340000003",
+      groupe: "Clients",
+      date: "2025-10-13",
+    },
+    {
+      id: 4,
+      nom: "Sophie Randria",
+      telephone: "+261340000004",
+      groupe: "Équipe",
+      date: "2025-10-12",
+    },
+    {
+      id: 5,
+      nom: "Luc Razaf",
+      telephone: "+261340000005",
+      groupe: "Clients",
+      date: "2025-10-11",
+    },
   ]

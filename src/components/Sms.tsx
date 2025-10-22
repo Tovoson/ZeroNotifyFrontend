@@ -9,6 +9,7 @@ import {
   Users,
 } from "lucide-react";
 import { SmsStore } from "../stores/smsStore";
+import { stores } from "../stores/stores";
 export const Sms = () => {
 
   const { 
@@ -31,6 +32,8 @@ export const Sms = () => {
     handleImportCSV,
     reInitialiser,
   } = SmsStore();
+
+  const {setActiveMenu} = stores();
 
   return (
     
@@ -113,6 +116,13 @@ export const Sms = () => {
             </label>
             {smsType !== "simple" && (
               <div className="flex gap-2">
+                <button
+                        onClick={() => setActiveMenu('contacts')}
+                        className="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors flex items-center gap-2"
+                      >
+                        <Users className="w-4 h-4" />
+                        <span className="text-sm font-semibold">De mes contacts</span>
+                      </button>
                 <label className="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg cursor-pointer transition-colors flex items-center gap-2">
                   <Upload className="w-4 h-4" />
                   <span className="text-sm font-semibold">Import CSV</span>
