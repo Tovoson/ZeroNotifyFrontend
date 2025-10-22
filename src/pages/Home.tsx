@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { AlertCircle, Bell, CheckCircle, XCircle } from "lucide-react";
 import { SmsStore } from "../stores/smsStore";
 import { Contacts } from "../components/Contacts";
+import { Historique } from "../components/Historique";
 
 export const NotificationIcon = ({ type }: any) => {
   switch (type) {
@@ -81,6 +82,7 @@ const Home = () => {
         {activeMenu === "dashboard" && <Dashboard />}
         {activeMenu === "sms" && <Sms />}
         {activeMenu === 'contacts' && <Contacts />}
+        {activeMenu === 'historique' && <Historique />}
 
         {!["dashboard", "sms", "contacts"].includes(activeMenu) && (
           <div className="p-8">

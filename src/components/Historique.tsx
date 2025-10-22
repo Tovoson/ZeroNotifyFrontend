@@ -2,12 +2,35 @@ import { Calendar, CheckCircle, Clock, MessageSquare, Search, Send, User, Users,
 import { useState } from "react";
 import { historiqueData } from "../data/datas";
 
+type Statut = 'envoye' | 'echec' | 'planifie' | 'en_attente';
+
+interface BadgeConfig {
+  bg: string;
+  text: string;
+  label: string;
+}
+
+interface SMSDetails {
+  id: number;
+  statut: 'envoye' | 'echec' | 'planifie' | 'en_attente';
+  expediteur: string;
+  type: string;
+  total: number;
+  envoyes: number;
+  echecs: number;
+  dateEnvoi?: string;
+  datePlanifiee?: string;
+  contenu: string;
+  destinataires: string[];
+}
+
+
 export const Historique = () => {
     // États pour l'historique
   const [historique, setHistorique] = useState(historiqueData);
   const [searchHistorique, setSearchHistorique] = useState('');
   const [filterStatut, setFilterStatut] = useState('tous');
-  const [selectedSMS, setSelectedSMS] = useState(null);
+  const [selectedSMS, setSelectedSMS] = useState<SMSDetails | null>(null);
 
   const filteredHistorique = historique.filter(sms => {
     const matchSearch = sms.expediteur.toLowerCase().includes(searchHistorique.toLowerCase()) ||
@@ -16,7 +39,7 @@ export const Historique = () => {
     return matchSearch && matchStatut;
   });
 
-  const getStatutBadge = (statut) => {
+  const getStatutBadge = (statut: Statut):BadgeConfig => {
     const badges = {
       envoye: { bg: 'bg-green-100', text: 'text-green-700', label: 'Envoyé' },
       echec: { bg: 'bg-red-100', text: 'text-red-700', label: 'Échec' },
@@ -255,7 +278,7 @@ export const Historique = () => {
                     <p className="text-slate-400 text-sm mt-2">Essayez de modifier vos filtres</p>
                   </div>
                 ) : (
-                  filteredHistorique.map((sms) => {
+                  filteredHistorique.map((sms: any) => {
                     const badge = getStatutBadge(sms.statut);
                     return (
                       <div 

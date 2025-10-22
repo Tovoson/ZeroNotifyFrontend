@@ -25,4 +25,5 @@ export interface contactTypes{
     setShowAddContactModal: (showAddContactModal: boolean) => void;
     handleImportContactsCSV: (e:any) => void;
     handleAddContact: () => void;
+    listerContacts: () => void;
 }

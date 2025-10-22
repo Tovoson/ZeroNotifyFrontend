@@ -35,7 +35,7 @@ export const ContactModal = () => {
                 <input
                   type="text"
                   value={newContact.nom}
-                  onChange={(e) => addNewContact("nom", e.target.value)}
+                  onChange={({e}:any) => addNewContact("nom", e.target.value)}
                   placeholder="Jean Dupont"
                   className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />

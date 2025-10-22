@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import type { newcontact, contactTypes, Contacts } from "../types/contactType";
 import { ContactData } from "../data/datas";
+import { SmsStore } from "./smsStore";
+import api from "../utils/api";
 
 const initialContact: newcontact = {
   nom: "",
@@ -114,6 +116,7 @@ export const contactStores = create<contactTypes>((set, get) => ({
   handleAddContact : () => {
 
     const {newContact, contacts, addContact, setNewContact, setShowAddContactModal} = get();
+    const {setNotifications} = SmsStore();
 
     if (!newContact.nom.trim() || !newContact.telephone.trim()) {
       const errorNotif = {
@@ -144,7 +147,7 @@ export const contactStores = create<contactTypes>((set, get) => ({
     setShowAddContactModal(false);
 
     const successNotif = {
-      id: Date.now(),
+      id: String(Date.now()),
       type: "success",
       title: "Contact ajouté",
       message: `${contact.nom} a été ajouté avec succès`,
@@ -153,6 +156,13 @@ export const contactStores = create<contactTypes>((set, get) => ({
         minute: "2-digit",
       }),
     };
-    //setNotifications((prev) => [successNotif, ...prev]);
+    setNotifications(successNotif);
   },
+  listerContacts: async() => {
+    const userId = 1
+    const response = await api.get(`/contact/lister-contacts/${userId}`)
+    console.log(response)
+
+    set({contacts: response.data})
+  }
 }));

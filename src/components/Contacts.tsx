@@ -1,5 +1,5 @@
 import { Edit, Plus, Search, Trash2, Upload, Users, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { stores } from "../stores/stores";
 import { SmsStore } from "../stores/smsStore";
 import { ContactModal } from "./Modal";
@@ -19,6 +19,7 @@ export const Contacts = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const { setActiveMenu } = stores();
   const { ajouterDestinataires } = SmsStore();
+  const {listerContacts} = contactStores()
 
   const {
     contacts,
@@ -51,6 +52,10 @@ export const Contacts = () => {
       c.telephone.includes(searchContact) ||
       c.groupe.toLowerCase().includes(searchContact.toLowerCase())
   );
+
+  useEffect(()=>{
+    listerContacts();
+  },[])
 
   return (
     <div className="p-8">

@@ -5,7 +5,7 @@ import { useAuthStore } from '../stores/authStore'; // Importer l'état global
 // Assurez-vous d'adapter le port (ex: 3000, 8080)
 const API_BASE_URL = 'http://localhost:3000/zeronotify'; 
 
-const api = axios.create({
+export const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
