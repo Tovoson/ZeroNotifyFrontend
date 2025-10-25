@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { stores } from "../stores/stores";
-import { Bell, MessageCircleIcon } from "lucide-react";
-import { NotificationIcon } from "../pages/Home";
+import { Bell, LogOut, MessageCircleIcon } from "lucide-react";
+import { NotificationIcon } from "../pages/Layout";
+import { useAuthStore } from "../stores/authStore";
 
 export const Header = () => {
   const { activeMenu } = stores();
+  const {logout} = useAuthStore()
 
   const notifs = [
     { id: 'Jan', title: "notif1", message: "mon message", time: "time", type: "nofits" },
@@ -41,7 +43,7 @@ export const Header = () => {
       </div>
 
       {/* Notifications */}
-      <div className="relative pr-8">
+      <div className="relative pr-8 flex flex-row items-center justify-center gap-7">
         <button
           onClick={() => setShowNotifications(!showNotifications)}
           className="relative p-3 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
@@ -90,6 +92,12 @@ export const Header = () => {
             </div>
           </div>
         )}
+
+<button
+          onClick={() => logout()}
+          className="relative p-3 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
+        >
+        <LogOut/></button>
       </div>
     </header>
   );

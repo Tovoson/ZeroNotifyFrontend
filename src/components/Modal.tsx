@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import { contactStores } from "../stores/contactStore";
+import { useAuthStore } from "../stores/authStore";
 
 export const ContactModal = () => {
   const {
@@ -8,7 +9,14 @@ export const ContactModal = () => {
     newContact,
     addNewContact,
     handleAddContact,
+    modifContact,
+    setModifContact,
+    handleModifierContact,
+    reInitialiserContact,
+    isEditing
   } = contactStores();
+
+  const {user} = useAuthStore()
 
   return (
     <div>
@@ -17,10 +25,13 @@ export const ContactModal = () => {
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-slate-900">
-                Nouveau Contact
+                {isEditing ? "Modifier Contact" : "Nouveau Contact"}
               </h2>
               <button
-                onClick={() => setShowAddContactModal(false)}
+                onClick={() => {
+                  setShowAddContactModal(false);
+                  reInitialiserContact()
+                }}
                 className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
               >
                 <X className="w-5 h-5" />
@@ -29,13 +40,20 @@ export const ContactModal = () => {
 
             <div className="space-y-4">
               <div>
+                 <input
+                  type="hidden"
+                  value={modifContact.id}
+                  onChange={(e) => setModifContact("id", e.target.value)}
+                  placeholder="Jean Dupont"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
                 <label className="block text-sm font-semibold text-slate-900 mb-2">
                   Nom complet *
                 </label>
                 <input
                   type="text"
-                  value={newContact.nom}
-                  onChange={({e}:any) => addNewContact("nom", e.target.value)}
+                  value={isEditing ? modifContact.nom : newContact.nom}
+                  onChange={(e) => isEditing ? setModifContact("nom", e.target.value) : addNewContact("nom", e.target.value)}
                   placeholder="Jean Dupont"
                   className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -47,8 +65,8 @@ export const ContactModal = () => {
                 </label>
                 <input
                   type="tel"
-                  value={newContact.telephone}
-                  onChange={(e) => addNewContact("telephone", e.target.value)}
+                  value={isEditing ? modifContact.telephone : newContact.telephone}
+                  onChange={(e) => isEditing ? setModifContact("telephone", e.target.value) : addNewContact("telephone", e.target.value)}
                   placeholder="+261 34 00 000 00"
                   className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -59,8 +77,8 @@ export const ContactModal = () => {
                   Groupe
                 </label>
                 <select
-                  value={newContact.groupe}
-                  onChange={(e) => addNewContact("groupe", e.target.value)}
+                  value={isEditing ? modifContact.groupe : newContact.groupe}
+                  onChange={(e) => isEditing ? setModifContact("groupe", e.target.value) :  addNewContact("groupe", e.target.value)}
                   className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="Clients">Clients</option>
@@ -74,16 +92,20 @@ export const ContactModal = () => {
 
             <div className="flex gap-3 mt-6">
               <button
-                onClick={() => setShowAddContactModal(false)}
+                onClick={() => {
+                  setShowAddContactModal(false);
+                  reInitialiserContact()
+                }}
                 className="flex-1 px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-xl font-semibold transition-colors"
               >
                 Annuler
               </button>
               <button
-                onClick={handleAddContact}
+                onClick={() => isEditing ? handleModifierContact(user?.id) : handleAddContact(user?.id)}
                 className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
               >
                 Ajouter
+                {modifContact ? "Modifier": "Ajouter"}
               </button>
             </div>
           </div>

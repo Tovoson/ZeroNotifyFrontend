@@ -10,12 +10,12 @@ import {
 import type { Contacts } from "../types/contactType";
 
 export const menuItems = [
-  { id: "dashboard", label: "Dashboard", icon: BarChart3 },
-  { id: "sms", label: "Envoyer SMS", icon: Send },
-  { id: "contacts", label: "Contacts", icon: Users },
-  { id: "historique", label: "Historique", icon: Clock },
-  { id: "services", label: "Services", icon: MessageSquare },
-  { id: "settings", label: "Paramètres", icon: Settings },
+  { id: "dashboard", label: "Dashboard", path: '/dashboard', icon: BarChart3 },
+  { id: "sms", label: "Envoyer SMS", path: '/send-sms', icon: Send },
+  { id: "contacts", label: "Contacts", path: '/contact', icon: Users },
+  { id: "historique", label: "Historique", path: '/history', icon: Clock },
+  { id: "services", label: "Services", path: '/service', icon: MessageSquare },
+  { id: "settings", label: "Paramètres", path: '/setting', icon: Settings },
 ];
 
 export const stats = [
@@ -181,34 +181,34 @@ export const ContactData: Contacts[] = [
       nom: "Jean Dupont",
       telephone: "+261340000001",
       groupe: "Clients",
-      date: "2025-10-15",
+      updatedAt: "2025-10-15",
     },
     {
       id: 2,
       nom: "Marie Martin",
       telephone: "+261340000002",
       groupe: "Partenaires",
-      date: "2025-10-14",
+      updatedAt: "2025-10-14",
     },
     {
       id: 3,
       nom: "Pierre Rakoto",
       telephone: "+261340000003",
       groupe: "Clients",
-      date: "2025-10-13",
+      updatedAt: "2025-10-13",
     },
     {
       id: 4,
       nom: "Sophie Randria",
       telephone: "+261340000004",
       groupe: "Équipe",
-      date: "2025-10-12",
+      updatedAt: "2025-10-12",
     },
     {
       id: 5,
       nom: "Luc Razaf",
       telephone: "+261340000005",
       groupe: "Clients",
-      date: "2025-10-11",
+      updatedAt: "2025-10-11",
     },
   ]

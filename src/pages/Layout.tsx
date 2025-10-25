@@ -1,13 +1,8 @@
-import { Header } from "../components/Header";
-import { Dashboard } from "../components/Dashboard";
 import { SideBar } from "../components/Sidebar";
-import { Sms } from "../components/Sms";
 import { stores } from "../stores/stores";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AlertCircle, Bell, CheckCircle, XCircle } from "lucide-react";
 import { SmsStore } from "../stores/smsStore";
-import { Contacts } from "../components/Contacts";
-import { Historique } from "../components/Historique";
 
 export const NotificationIcon = ({ type }: any) => {
   switch (type) {
@@ -21,10 +16,9 @@ export const NotificationIcon = ({ type }: any) => {
       return <Bell className="w-5 h-5 text-blue-500" />;
   }
 };
-const Home = () => {
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { sidebarOpen, activeMenu } = stores();
-  const {setNotifications} = SmsStore();
-
+  const { setNotifications } = SmsStore();
 
   // Système de notifications en temps réel
   useEffect(() => {
@@ -78,11 +72,7 @@ const Home = () => {
           sidebarOpen ? "ml-64" : "ml-20"
         }`}
       >
-        <Header />
-        {activeMenu === "dashboard" && <Dashboard />}
-        {activeMenu === "sms" && <Sms />}
-        {activeMenu === 'contacts' && <Contacts />}
-        {activeMenu === 'historique' && <Historique />}
+        {children}
 
         {!["dashboard", "sms", "contacts"].includes(activeMenu) && (
           <div className="p-8">
@@ -101,4 +91,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Layout;

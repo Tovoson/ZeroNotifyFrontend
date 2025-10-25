@@ -8,7 +8,11 @@ import {
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import { useAuthStore } from "./stores/authStore";
-import Home from "./pages/Home";
+import Layout from "./pages/Layout";
+import { Sms } from "./pages/Sms";
+import { Historique } from "./pages/Historique";
+import { Contacts } from "./pages/Contacts";
+import { Dashboard } from "./pages/Dashboard";
 
 // Composant de protection de route (pour s'assurer que l'utilisateur est connecté)
 const ProtectedRoute: React.FC<{ element: React.ReactNode }> = ({
@@ -28,9 +32,14 @@ const App: React.FC = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           {/* Route protégée pour le tableau de bord */}
-          <Route path="/home" element={<ProtectedRoute element={<Home />} />} />
+          <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
+          <Route path="/contact" element={<ProtectedRoute element={<Contacts />} />} />
+          <Route path="/history" element={<ProtectedRoute element={<Historique />} />} />
+          <Route path="/send-sms" element={<ProtectedRoute element={<Sms />} />} />
+
           {/* Redirection par défaut */}
-          <Route path="*" element={<Navigate to="/home" replace />} />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </div>
     </Router>

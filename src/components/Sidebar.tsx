@@ -1,11 +1,13 @@
-import { ChevronRight, Menu, X, Zap } from "lucide-react";
+import { ChevronRight, LogOut, Menu, X, Zap } from "lucide-react";
 import { menuItems } from "../data/datas";
 import { stores } from "../stores/stores";
 import { useAuthStore } from "../stores/authStore";
+import { Link } from "react-router-dom";
 
 export const SideBar = () => {
   const { sidebarOpen, setSidebarOpen, activeMenu, setActiveMenu } = stores();
   const {user} = useAuthStore();
+
   return (
     <aside
       className={`fixed left-0 top-0 h-full bg-gradient-to-b from-slate-900 to-slate-800 text-white transition-all duration-300 z-50 shadow-2xl ${
@@ -45,8 +47,9 @@ export const SideBar = () => {
           const Icon = item.icon;
           const isActive = activeMenu === item.id;
           return (
-            <button
-              key={item.id}
+            <Link
+              to={item.path}
+              key={item.path}
               onClick={() => setActiveMenu(item.id)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
                 isActive
@@ -61,14 +64,15 @@ export const SideBar = () => {
                   {isActive && <ChevronRight className="w-4 h-4" />}
                 </>
               )}
-            </button>
+            </Link>
           );
         })}
       </nav>
-
+        
       {sidebarOpen && (
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-700">
           <div className="flex items-center gap-3 p-3 bg-slate-700/50 rounded-xl">
+            
             <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center font-bold">
               A
             </div>

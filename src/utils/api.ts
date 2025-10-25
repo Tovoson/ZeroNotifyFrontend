@@ -18,8 +18,20 @@ export const api = axios.create({
  */
 api.interceptors.request.use(
   (config) => {
-    // Récupère l'état actuel de l'utilisateur (et donc du token)
-    const token = useAuthStore.getState().user?.token;
+    
+    let token = null;
+
+    try {
+      
+      const authStorage = localStorage.getItem('auth-storage');
+      if(authStorage){
+        const authData = JSON.parse(authStorage)
+        token = authData.state.token
+      }
+    } catch (error) {
+      console.warn('Erreur lecture storage:', error);
+    }
+    
 
     if (token) {
       // Si un token existe, l'ajouter à l'en-tête Authorization
@@ -49,9 +61,7 @@ api.interceptors.response.use(
       
       // Déconnecte l'utilisateur dans l'état global
       useAuthStore.getState().logout();
-      
-      // Optionnel: Rediriger l'utilisateur vers la page de connexion
-      // window.location.href = '/login'; 
+       
     }
     return Promise.reject(error);
   }
