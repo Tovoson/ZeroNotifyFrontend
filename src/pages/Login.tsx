@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuthStore } from "../stores/authStore";
 import { Eye, EyeOff, Lock, Mail, Zap } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [isvisible, setIsVisible] = useState(false);
@@ -152,7 +152,7 @@ const Login: React.FC = () => {
           <div className="text-center">
             <p className="text-sm text-slate-600">
               Pas encore de compte ?{' '}
-              <a href="#register" className="text-purple-600 hover:text-purple-700 font-semibold transition-colors">
+              <a href="/register" className="text-purple-600 hover:text-purple-700 font-semibold transition-colors">
                 Créer un compte
               </a>
             </p>

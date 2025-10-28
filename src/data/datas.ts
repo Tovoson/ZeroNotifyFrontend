@@ -15,7 +15,7 @@ export const menuItems = [
   { id: "contacts", label: "Contacts", path: '/contact', icon: Users },
   { id: "historique", label: "Historique", path: '/history', icon: Clock },
   { id: "services", label: "Services", path: '/service', icon: MessageSquare },
-  { id: "settings", label: "Paramètres", path: '/setting', icon: Settings },
+  { id: "settings", label: "Paramètres", path: '/parametre', icon: Settings },
 ];
 
 export const stats = [

@@ -2,8 +2,9 @@ import { create } from "zustand";
 import type { SmsState } from "../types/smsType";
 import toast from "react-hot-toast";
 import { notifs } from "../data/datas";
+import api from "../utils/api";
 
-export const SmsStore = create<SmsState>((set, get) => ({
+export const useSmsStore = create<SmsState>((set, get) => ({
   smsType: "simple",
   destinataires: [],
   expediteur: "",
@@ -46,7 +47,7 @@ export const SmsStore = create<SmsState>((set, get) => ({
 
     return Math.ceil(contenu.length / 160);
   },
-  handleSubmit: async (e) => {
+  handleSubmit: async (e, userId) => {
     e.preventDefault();
     set({ loading: true });
 
@@ -57,15 +58,15 @@ export const SmsStore = create<SmsState>((set, get) => ({
       expediteur: expediteur || "ZeroNotify",
       destinataires: destinataires.filter((d) => d.trim() !== ""),
       contenu,
-      utilisateurId: 1,
+      utilisateurId: userId,
       ...(smsType === "planifie" && datePlanifiee && { datePlanifiee }),
     };
 
     try {
       // Simuler l'envoi (remplacez par votre API)
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      toast.success("SMS envoyé:");
-      console.log("SMS envoyé:", payload);
+      const response = await api.post('/sms/send-sms', payload)
+      console.log("SMS envoyé:", response.data);
+      toast.success("SMS envoyé:"+response.data.message);
       //alert("SMS envoyé avec succès !");
 
       // Reset form

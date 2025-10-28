@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { stores } from "../stores/stores";
+import { useStores } from "../stores/stores";
 import { Bell, LogOut, MessageCircleIcon } from "lucide-react";
 import { NotificationIcon } from "../pages/Layout";
 import { useAuthStore } from "../stores/authStore";
 
 export const Header = () => {
-  const { activeMenu } = stores();
+  const { activeMenu } = useStores();
   const {logout} = useAuthStore()
 
   const notifs = [

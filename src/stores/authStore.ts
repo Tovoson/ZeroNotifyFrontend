@@ -12,35 +12,47 @@ const users = {
 };
 
 const initLoginData = {
-  email: "", mot_de_passe: "" 
-}
+  email: "",
+  mot_de_passe: "",
+};
+
+const initRegisterData = {
+  nom: "",
+  mot_de_passe: "",
+  email: "",
+  entreprise: "",
+  confirmPassword: "",
+};
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
       user: null,
       loginData: initLoginData,
-      modemStatus: {
-        isConnected: false,
-        message: "Non vérifié",
-        statusCode: "INIT",
-      },
+      registerData: initRegisterData,
       isLoading: false,
       token: null,
       rememberMe: false,
+      islogin: true,
+      acceptTerms: false,
+      errors: {},
 
       setLoginData: (field: string, value: string) => {
         set((state) => ({
           loginData: { ...state.loginData, [field]: value },
         }));
       },
+      setRegisterData: (field: string, value: string) => {
+        set((state) => ({
+          registerData: { ...state.registerData, [field]: value },
+        }));
+      },
       login: async (navigate: any) => {
         const { loginData } = get();
         set({ isLoading: true });
-        
-        
+
         if (!loginData.email || !loginData.mot_de_passe) {
-          toast.error('Veuillez remplir tous les champs');
+          toast.error("Veuillez remplir tous les champs");
           set({ isLoading: false });
           return;
         }
@@ -56,11 +68,12 @@ export const useAuthStore = create<AuthState>()(
             id: response.data.data.id,
             nom: response.data.data.nom,
             email: response.data.data.email,
-            token: response.data.token, // Stockez le token pour les requêtes futures
+            entreprise: response.data.entreprise,
+            token: response.data.token,
           };
 
           set({ user, loginData: initLoginData });
-          
+
           toast.success(`Bienvenue, ${user.nom} !`);
           navigate("/dashboard");
         } catch (error: any) {
@@ -71,10 +84,40 @@ export const useAuthStore = create<AuthState>()(
           set({ isLoading: false });
         }
       },
+      register: async (navigate: any) => {
+        const {registerData} = get()
+
+        const user = {
+          nom: registerData.nom,
+          email: registerData.email,
+          mot_de_passe: registerData.mot_de_passe,
+          entreprise: registerData.entreprise
+        }
+
+        console.log(user);
+        try {
+          set({ isLoading: true });
+
+          const response = await api.post("/auth/signup", user);
+
+          console.log(response.data);
+          toast.success("Inscription réussie ! Veuillez vous connecter.");
+          navigate("/login");
+        } catch (error: any) {
+          const message =
+            error.response?.data?.message || "Échec de l'inscription.";
+          toast.error(message);
+        } finally {
+          set({ isLoading: false });
+        }
+      },
       logout: () => set({ user: null }),
-      setModemStatus: (status) => set({ modemStatus: status }),
       setLoading: (isLoading) => set({ isLoading }),
-      setRememberMe: (rememberMe) => set({ rememberMe })
+      setRememberMe: (rememberMe) => set({ rememberMe }),
+      setAcceptTerms: (acceptTerms) => set({ acceptTerms }),
+      setErrors: (errors) => {
+        set({errors: errors});
+      },
     }),
     {
       name: "auth-store",

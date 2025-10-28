@@ -8,10 +8,12 @@ import {
   User,
   Users,
 } from "lucide-react";
-import { SmsStore } from "../stores/smsStore";
-import { stores } from "../stores/stores";
+import { useSmsStore } from "../stores/smsStore";
+import { useStores } from "../stores/stores";
 import Layout from "./Layout";
 import { Header } from "../components/Header";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../stores/authStore";
 export const Sms = () => {
   const {
     smsType,
@@ -32,15 +34,21 @@ export const Sms = () => {
     handleSubmit,
     handleImportCSV,
     reInitialiser,
-  } = SmsStore();
+  } = useSmsStore();
 
-  const { setActiveMenu } = stores();
+  const { setActiveMenu } = useStores();
+  const {user} = useAuthStore()
+  const navigate = useNavigate()
+
+  if (!user) {
+    return <div>Veuillez vous connecter</div>;
+  }
 
   return (
     <Layout>
       <Header />
       <div className="p-8">
-        <form onSubmit={handleSubmit} className="max-w-5xl mx-auto">
+        <form onSubmit={ (e) => handleSubmit(e, user.id)} className="max-w-5xl mx-auto">
           {/* Type de SMS */}
           <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 mb-6">
             <h2 className="text-lg font-bold text-slate-900 mb-4">
@@ -50,11 +58,10 @@ export const Sms = () => {
               <button
                 type="button"
                 onClick={() => setSmsType("simple")}
-                className={`p-4 rounded-xl border-2 transition-all duration-200 ${
-                  smsType === "simple"
+                className={`p-4 rounded-xl border-2 transition-all duration-200 ${smsType === "simple"
                     ? "border-blue-500 bg-blue-50 shadow-lg shadow-blue-500/20"
                     : "border-slate-200 hover:border-slate-300"
-                }`}
+                  }`}
               >
                 <User className="w-8 h-8 mx-auto mb-2 text-blue-500" />
                 <p className="font-semibold text-slate-900">SMS Simple</p>
@@ -64,11 +71,10 @@ export const Sms = () => {
               <button
                 type="button"
                 onClick={() => setSmsType("groupe")}
-                className={`p-4 rounded-xl border-2 transition-all duration-200 ${
-                  smsType === "groupe"
+                className={`p-4 rounded-xl border-2 transition-all duration-200 ${smsType === "groupe"
                     ? "border-green-500 bg-green-50 shadow-lg shadow-green-500/20"
                     : "border-slate-200 hover:border-slate-300"
-                }`}
+                  }`}
               >
                 <Users className="w-8 h-8 mx-auto mb-2 text-green-500" />
                 <p className="font-semibold text-slate-900">SMS Groupé</p>
@@ -80,11 +86,10 @@ export const Sms = () => {
               <button
                 type="button"
                 onClick={() => setSmsType("planifie")}
-                className={`p-4 rounded-xl border-2 transition-all duration-200 ${
-                  smsType === "planifie"
+                className={`p-4 rounded-xl border-2 transition-all duration-200 ${smsType === "planifie"
                     ? "border-purple-500 bg-purple-50 shadow-lg shadow-purple-500/20"
                     : "border-slate-200 hover:border-slate-300"
-                }`}
+                  }`}
               >
                 <Clock className="w-8 h-8 mx-auto mb-2 text-purple-500" />
                 <p className="font-semibold text-slate-900">SMS Planifié</p>
@@ -119,7 +124,10 @@ export const Sms = () => {
               {smsType !== "simple" && (
                 <div className="flex gap-2">
                   <button
-                    onClick={() => setActiveMenu("contacts")}
+                    onClick={() => {
+                      setActiveMenu("contacts")
+                      navigate("/contact")
+                    } }
                     className="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors flex items-center gap-2"
                   >
                     <Users className="w-4 h-4" />
@@ -224,11 +232,10 @@ export const Sms = () => {
             />
             <div className="mt-2 flex items-center justify-between text-xs">
               <span
-                className={`font-medium ${
-                  caractereRestants() < 20
+                className={`font-medium ${caractereRestants() < 20
                     ? "text-orange-500"
                     : "text-slate-500"
-                }`}
+                  }`}
               >
                 {caractereRestants()} caractères restants dans ce segment
               </span>
@@ -252,11 +259,10 @@ export const Sms = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`flex-1 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
-                loading
+              className={`flex-1 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${loading
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:shadow-lg hover:shadow-blue-500/50"
-              }`}
+                }`}
             >
               {loading ? (
                 <>

@@ -1,8 +1,8 @@
 import { SideBar } from "../components/Sidebar";
-import { stores } from "../stores/stores";
+import { useStores } from "../stores/stores";
 import { useEffect } from "react";
 import { AlertCircle, Bell, CheckCircle, XCircle } from "lucide-react";
-import { SmsStore } from "../stores/smsStore";
+import { useSmsStore } from "../stores/smsStore";
 
 export const NotificationIcon = ({ type }: any) => {
   switch (type) {
@@ -17,8 +17,8 @@ export const NotificationIcon = ({ type }: any) => {
   }
 };
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { sidebarOpen, activeMenu } = stores();
-  const { setNotifications } = SmsStore();
+  const { sidebarOpen, activeMenu } = useStores();
+  const { setNotifications } = useSmsStore();
 
   // Système de notifications en temps réel
   useEffect(() => {

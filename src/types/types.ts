@@ -2,6 +2,7 @@ interface User {
   id: number;
   nom: string;
   email: string;
+  entreprise: string;
   token: string;
 }
 
@@ -10,27 +11,43 @@ interface LoginData {
   mot_de_passe: string
 }
 
-interface ModemStatus {
-  isConnected: boolean;
-  message: string;
-  statusCode: string;
+export interface RegisterData {
+  nom: string;
+  email: string;
+  mot_de_passe: string;
+  confirmPassword: string;
+  entreprise: string;
 }
 
+export interface newError {
+  nom?: string,
+  email?: string,
+  mot_de_passe?: string,
+  confirmPassword?: string,
+  terms?: string,
+  submit?: string,
+}
 
 export interface AuthState {
   user: User | null;
   loginData: LoginData,
-  modemStatus: ModemStatus;
+  registerData: RegisterData;
   isLoading: boolean;
   token: string | null,
   rememberMe: boolean,
+  islogin: boolean,
+  acceptTerms: boolean,
+  errors: newError,
 
   login: (navigate:any) => void;
+  register: (navigate:any) => Promise<void>;
   logout: () => void;
-  setModemStatus: (status: ModemStatus) => void;
   setLoading: (loading: boolean) => void;
   setLoginData: (field: keyof LoginData, value: string) => void;
+  setRegisterData: (field: keyof RegisterData, value: string) => void;
   setRememberMe: (rememberMe: boolean) => void;
+  setAcceptTerms: (  acceptTerms: boolean) => void;
+  setErrors: (errors: newError)  => void;
 }
 
 export interface States{

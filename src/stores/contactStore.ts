@@ -18,7 +18,7 @@ const modifdata = {
   updatedAt: "",
 };
 
-export const contactStores = create<contactTypes>((set, get) => ({
+export const useContactStores = create<contactTypes>((set, get) => ({
   isLoading: false,
   activeMenu: "dashboard",
   newContact: initialContact,
@@ -51,9 +51,8 @@ export const contactStores = create<contactTypes>((set, get) => ({
   },
   setShowAddContactModal: (showAddContactModal) => set({ showAddContactModal }),
   // Importer contacts depuis CSV
-  handleImportContactsCSV: async (e) => {
+  handleImportContactsCSV: async (e, userId) => {
     const { listerContacts } = get();
-    const userId = 1; //à corriger encore
 
     const file = e.target.files?.[0];
     if (!file) return;

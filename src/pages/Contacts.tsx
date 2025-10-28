@@ -6,17 +6,17 @@ import {
   Upload,
   Users,
   Loader2,
-  X,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { stores } from "../stores/stores";
-import { SmsStore } from "../stores/smsStore";
+import { useStores } from "../stores/stores";
+import { useSmsStore } from "../stores/smsStore";
 import { ContactModal } from "../components/Modal";
-import { contactStores } from "../stores/contactStore";
+import { useContactStores } from "../stores/contactStore";
 import { useAuthStore } from "../stores/authStore";
-import { formatDate } from "../utils/formaterDate";
+import { formatDate } from "../utils/validateur";
 import { Header } from "../components/Header";
 import Layout from "./Layout";
+import { useNavigate } from "react-router-dom";
 
 interface Notification {
   id: number;
@@ -29,10 +29,11 @@ interface Notification {
 export const Contacts: React.FC = () => {
   const [searchContact, setSearchContact] = useState("");
   const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const { setActiveMenu } = stores();
-  const { ajouterDestinataires } = SmsStore();
+  //const [notifications, setNotifications] = useState<Notification[]>([]);
+  const { setActiveMenu } = useStores();
+  const { ajouterDestinataires } = useSmsStore();
   const { user } = useAuthStore();
+  const navigate = useNavigate()
 
   const {
     contacts,
@@ -45,7 +46,7 @@ export const Contacts: React.FC = () => {
     reInitialiserContact,
     groupStats,
     calculateGroupStats,
-  } = contactStores();
+  } = useContactStores();
 
   const toggleContactSelection = (contactId: number) => {
     setSelectedContacts((prev) =>
@@ -104,7 +105,7 @@ export const Contacts: React.FC = () => {
                   <input
                     type="file"
                     accept=".csv"
-                    onChange={(e) => handleImportContactsCSV(e)}
+                    onChange={(e) => handleImportContactsCSV(e, user.id)}
                     className="hidden"
                   />
                 </label>
@@ -134,7 +135,10 @@ export const Contacts: React.FC = () => {
               </div>
               {selectedContacts.length > 0 && (
                 <button
-                  onClick={importSelectedContacts}
+                  onClick={() => {
+                    importSelectedContacts()
+                    navigate('/send-sms')
+                  } }
                   className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl transition-colors font-semibold"
                 >
                   Utiliser ({selectedContacts.length})

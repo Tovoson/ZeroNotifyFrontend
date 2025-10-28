@@ -13,6 +13,8 @@ import { Sms } from "./pages/Sms";
 import { Historique } from "./pages/Historique";
 import { Contacts } from "./pages/Contacts";
 import { Dashboard } from "./pages/Dashboard";
+import Parametres from "./pages/Parametre";
+import Services from "./pages/Service";
 
 // Composant de protection de route (pour s'assurer que l'utilisateur est connecté)
 const ProtectedRoute: React.FC<{ element: React.ReactNode }> = ({
@@ -36,6 +38,8 @@ const App: React.FC = () => {
           <Route path="/contact" element={<ProtectedRoute element={<Contacts />} />} />
           <Route path="/history" element={<ProtectedRoute element={<Historique />} />} />
           <Route path="/send-sms" element={<ProtectedRoute element={<Sms />} />} />
+          <Route path="/parametre" element={<ProtectedRoute element={<Parametres />} />} />
+          <Route path="/service" element={<ProtectedRoute element={<Services />} />} />
 
           {/* Redirection par défaut */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />

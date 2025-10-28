@@ -1,15 +1,15 @@
 import { Clock, Send, Users } from "lucide-react";
-import { SmsStore } from "../stores/smsStore";
+import { useSmsStore } from "../stores/smsStore";
 import { recentActivity, stats } from "../data/datas";
-import { stores } from "../stores/stores";
+import { useStores } from "../stores/stores";
 import { useAuthStore } from "../stores/authStore";
 import { Charts } from "../components/Charts";
 import { Header } from "../components/Header";
 import Layout from "./Layout";
 
 export const Dashboard = () => {
-  const { setSmsType } = SmsStore();
-  const { setActiveMenu } = stores();
+  const { setSmsType } = useSmsStore();
+  const { setActiveMenu } = useStores();
   return (
     <Layout>
       <Header />

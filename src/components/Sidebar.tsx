@@ -1,11 +1,11 @@
 import { ChevronRight, LogOut, Menu, X, Zap } from "lucide-react";
 import { menuItems } from "../data/datas";
-import { stores } from "../stores/stores";
+import { useStores } from "../stores/stores";
 import { useAuthStore } from "../stores/authStore";
 import { Link } from "react-router-dom";
 
 export const SideBar = () => {
-  const { sidebarOpen, setSidebarOpen, activeMenu, setActiveMenu } = stores();
+  const { sidebarOpen, setSidebarOpen, activeMenu, setActiveMenu } = useStores();
   const {user} = useAuthStore();
 
   return (

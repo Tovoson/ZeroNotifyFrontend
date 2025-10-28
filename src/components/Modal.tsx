@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import { contactStores } from "../stores/contactStore";
+import { useContactStores } from "../stores/contactStore";
 import { useAuthStore } from "../stores/authStore";
 
 export const ContactModal = () => {
@@ -14,7 +14,7 @@ export const ContactModal = () => {
     handleModifierContact,
     reInitialiserContact,
     isEditing
-  } = contactStores();
+  } = useContactStores();
 
   const {user} = useAuthStore()
 

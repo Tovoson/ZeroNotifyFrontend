@@ -10,32 +10,14 @@ import {
   X,
   XCircle,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { historiqueData } from "../data/datas";
 import { Header } from "../components/Header";
 import Layout from "./Layout";
-
-type Statut = "envoye" | "echec" | "planifie" | "en_attente";
-
-interface BadgeConfig {
-  bg: string;
-  text: string;
-  label: string;
-}
-
-interface SMSDetails {
-  id: number;
-  statut: "envoye" | "echec" | "planifie" | "en_attente";
-  expediteur: string;
-  type: string;
-  total: number;
-  envoyes: number;
-  echecs: number;
-  dateEnvoi?: string;
-  datePlanifiee?: string;
-  contenu: string;
-  destinataires: string[];
-}
+import type { BadgeConfig, SMSDetails, Statut } from "../types/historiqueTypes";
+import { useHistoriqueStore } from "../stores/historiqueStore";
+import { useAuthStore } from "../stores/authStore";
+import { formatDate } from "../utils/validateur";
 
 export const Historique = () => {
   // États pour l'historique
@@ -43,8 +25,10 @@ export const Historique = () => {
   const [searchHistorique, setSearchHistorique] = useState("");
   const [filterStatut, setFilterStatut] = useState("tous");
   const [selectedSMS, setSelectedSMS] = useState<SMSDetails | null>(null);
+  const {getAllSms, allSms} = useHistoriqueStore()
+  const {user} = useAuthStore()
 
-  const filteredHistorique = historique.filter((sms) => {
+  const filteredHistorique = allSms.filter((sms) => {
     const matchSearch =
       sms.expediteur.toLowerCase().includes(searchHistorique.toLowerCase()) ||
       sms.contenu.toLowerCase().includes(searchHistorique.toLowerCase());
@@ -69,6 +53,17 @@ export const Historique = () => {
     };
     return badges[statut] || badges.en_attente;
   };
+
+  if (!user) {
+    return <div>Veuillez vous connecter</div>;
+  }
+
+  useEffect(() =>{
+    getAllSms(user.id);
+    console.log("by all sms data", allSms);
+  }, [user.id])
+
+
   return (
     <Layout>
       <Header />
@@ -150,7 +145,7 @@ export const Historique = () => {
                       <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
                         <Clock className="w-4 h-4 text-slate-500" />
                         <span className="text-sm text-slate-600">
-                          Envoyé le : {selectedSMS.dateEnvoi}
+                          Envoyé le : {formatDate(selectedSMS.dateEnvoi)}
                         </span>
                       </div>
                     )}
@@ -277,7 +272,7 @@ export const Historique = () => {
               <div>
                 <p className="text-slate-500 text-sm mb-1">Total SMS</p>
                 <p className="text-3xl font-bold text-slate-900">
-                  {historique.length}
+                  {allSms.length}
                 </p>
               </div>
               <MessageSquare className="w-12 h-12 text-slate-300" />
@@ -288,7 +283,7 @@ export const Historique = () => {
               <div>
                 <p className="text-slate-500 text-sm mb-1">Envoyés</p>
                 <p className="text-3xl font-bold text-green-600">
-                  {historique.filter((s) => s.statut === "envoye").length}
+                  {allSms.filter((s) => s.statut === "envoye").length}
                 </p>
               </div>
               <CheckCircle className="w-12 h-12 text-green-300" />
@@ -299,7 +294,7 @@ export const Historique = () => {
               <div>
                 <p className="text-slate-500 text-sm mb-1">Planifiés</p>
                 <p className="text-3xl font-bold text-orange-600">
-                  {historique.filter((s) => s.statut === "planifie").length}
+                  {allSms.filter((s) => s.statut === "planifie").length}
                 </p>
               </div>
               <Clock className="w-12 h-12 text-orange-300" />
@@ -310,7 +305,7 @@ export const Historique = () => {
               <div>
                 <p className="text-slate-500 text-sm mb-1">Échecs</p>
                 <p className="text-3xl font-bold text-red-600">
-                  {historique.filter((s) => s.statut === "echec").length}
+                  {allSms.filter((s) => s.statut === "echec").length}
                 </p>
               </div>
               <XCircle className="w-12 h-12 text-red-300" />

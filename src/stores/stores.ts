@@ -2,7 +2,7 @@ import { create } from "zustand";
 import type { States } from "../types/types";
 import { persist } from "zustand/middleware";
 
-export const stores = create(
+export const useStores = create(
   persist<States>(
     (set) => ({
       sidebarOpen: true,
