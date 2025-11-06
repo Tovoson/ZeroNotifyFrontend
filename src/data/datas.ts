@@ -7,6 +7,11 @@ import {
   TrendingUp,
   Clock,
   LayoutTemplate,
+  Star,
+  Calendar,
+  CheckCircle,
+  Bell,
+  ShoppingCart,
 } from "lucide-react";
 import type { Contacts } from "../types/contactType";
 
@@ -214,3 +219,67 @@ export const ContactData: Contacts[] = [
       updatedAt: "2025-10-11",
     },
   ]
+
+const TemplateData = [
+    {
+      id: 1,
+      nom: 'Bienvenue nouveau client',
+      categorie: 'marketing',
+      contenu: 'Bienvenue chez {entreprise} ! Profitez de -20% sur votre première commande avec le code {code}.',
+      variables: ['entreprise', 'code'],
+      utilisations: 245,
+      favori: true,
+      createdAt: '2025-10-15'
+    },
+    {
+      id: 2,
+      nom: 'Rappel rendez-vous',
+      categorie: 'notification',
+      contenu: 'Rappel : Votre RDV chez {entreprise} est prévu le {date} à {heure}. Pour annuler, appelez le {telephone}.',
+      variables: ['entreprise', 'date', 'heure', 'telephone'],
+      utilisations: 1523,
+      favori: true,
+      createdAt: '2025-10-10'
+    },
+    {
+      id: 3,
+      nom: 'Confirmation commande',
+      categorie: 'transactionnel',
+      contenu: 'Commande #{numero} confirmée ! Montant: {montant} Ar. Livraison prévue le {date}. Merci {nom} !',
+      variables: ['numero', 'montant', 'date', 'nom'],
+      utilisations: 892,
+      favori: false,
+      createdAt: '2025-10-08'
+    },
+    {
+      id: 4,
+      nom: 'Promotion flash',
+      categorie: 'marketing',
+      contenu: '🔥 FLASH SALE ! {reduction}% sur {produit}. Valable jusqu\'à {date}. Code: {code}. Ne manquez pas cette offre !',
+      variables: ['reduction', 'produit', 'date', 'code'],
+      utilisations: 445,
+      favori: false,
+      createdAt: '2025-10-05'
+    },
+    {
+      id: 5,
+      nom: 'Anniversaire client',
+      categorie: 'evenement',
+      contenu: '🎉 Joyeux anniversaire {nom} ! Pour célébrer, voici un cadeau: {cadeau}. Valable jusqu\'au {date}.',
+      variables: ['nom', 'cadeau', 'date'],
+      utilisations: 156,
+      favori: true,
+      createdAt: '2025-10-01'
+    },
+    {
+      id: 6,
+      nom: 'Code de vérification',
+      categorie: 'securite',
+      contenu: 'Votre code de vérification est: {code}. Valable 10 minutes. Ne partagez ce code avec personne.',
+      variables: ['code'],
+      utilisations: 3421,
+      favori: false,
+      createdAt: '2025-09-28'
+    }
+  ];
+

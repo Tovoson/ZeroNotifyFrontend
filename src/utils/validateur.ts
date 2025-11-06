@@ -46,3 +46,15 @@ export const validateForm = (registerData: RegisterData, acceptTerms: boolean) =
     isValid: Object.keys(newErrors).length === 0
   };
   };
+
+export const extractVariables = (text: string) => {
+          const regex = /\{([^}]+)\}/g;
+          const matches: string[] = [];
+          let match;
+          while ((match = regex.exec(text)) !== null) {
+            if (!matches.includes(match[1])) {
+              matches.push(match[1]);
+            }
+          }
+          return matches;
+        };
