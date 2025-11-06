@@ -3,6 +3,7 @@ import type { SmsState } from "../types/smsType";
 import toast from "react-hot-toast";
 import { notifs } from "../data/datas";
 import api from "../utils/api";
+import * as XLSX from 'xlsx';
 
 export const useSmsStore = create<SmsState>((set, get) => ({
   smsType: "simple",
@@ -77,28 +78,51 @@ export const useSmsStore = create<SmsState>((set, get) => ({
       set({ loading: false });
     }
   },
-  handleImportCSV: (e) => {
-    const file = e.target.files?.[0];
+  handleImportFile: (e) => {
+  const file = e.target.files?.[0];
+  console.log('1. Fichier sélectionné:', file)
 
-    if (file) {
-      const reader = new FileReader();
+  if (file) {
+    const reader = new FileReader();
 
-      reader.onload = (event) => {
-        const result = event.target?.result;
+    reader.onload = (event) => {
+      const arrayBuffer = event.target?.result;
 
-        // Vérifier que c'est bien une string
-        if (typeof result === "string") {
-          const lines = result
-            .split("\n")
-            .map((line) => line.trim())
-            .filter((line) => line); // Filtrer les lignes vides
-
-          set({ destinataires: lines });
-        }
-      };
-      reader.readAsText(file);
-    }
-  },
+      if (arrayBuffer instanceof ArrayBuffer) {
+        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+        
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        
+        // Convertir en JSON
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        
+        // Extraire les numéros (colonne B)
+        const phoneNumbers = jsonData
+          .slice(1) // Ignorer l'en-tête
+          .map((row: any) => {
+            console.log('Row:', row);
+            return row[0]; // Colonne A
+          })
+          .filter((num) => {
+            return num;
+          })
+          .map((num) => String(num).trim());
+        
+        set({ destinataires: phoneNumbers });
+      } else {
+        console.error('Pas un ArrayBuffer!');
+      }
+    };
+    
+    reader.onerror = (error) => {
+      console.error('Erreur FileReader:', error);
+    };
+    
+    reader.readAsArrayBuffer(file);
+    console.log('10. Lecture lancée');
+  }
+},
   reInitialiser: () =>
     set({
       contenu: "",

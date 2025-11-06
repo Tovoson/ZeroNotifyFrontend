@@ -27,7 +27,7 @@ export interface SmsState {
   segmentsSMS: () => number;
   setLoading: (loading: boolean) => void;
   handleSubmit : (e: any, userId: number) => void;
-  handleImportCSV : (e: any) => void;
+  handleImportFile : (e: any) => void;
   reInitialiser: () => void;
   setNotifications: (newNotif: Notification) => void;
   ajouterDestinataires: (phones: string[]) => void;

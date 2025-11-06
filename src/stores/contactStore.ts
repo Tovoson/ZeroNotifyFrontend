@@ -51,7 +51,7 @@ export const useContactStores = create<contactTypes>((set, get) => ({
   },
   setShowAddContactModal: (showAddContactModal) => set({ showAddContactModal }),
   // Importer contacts depuis CSV
-  handleImportContactsCSV: async (e, userId) => {
+  handleImportContactsCSV: async (e) => {
     const { listerContacts } = get();
 
     const file = e.target.files?.[0];
@@ -95,7 +95,6 @@ export const useContactStores = create<contactTypes>((set, get) => ({
 
         const contact = {
           contacts: importedContacts,
-          utilisateurId: userId,
         };
 
         console.log(contact);
@@ -110,7 +109,7 @@ export const useContactStores = create<contactTypes>((set, get) => ({
             `${importedContacts.length} contact(s) importé(s) avec succès`
           );
 
-          listerContacts(userId);
+          listerContacts();
         } catch (error) {
           toast.error("erreur lors de l'ajour des contacts importés");
           console.error(error);
@@ -176,7 +175,7 @@ export const useContactStores = create<contactTypes>((set, get) => ({
     //setNotifications((prev) => [successNotif, ...prev]);
   },
   // Ajouter un nouveau contact
-  handleAddContact: async (userId) => {
+  handleAddContact: async () => {
     set({ isLoading: true });
     const {
       newContact,
@@ -199,8 +198,7 @@ export const useContactStores = create<contactTypes>((set, get) => ({
           numero: newContact.telephone,
           groupe: newContact.groupe,
         },
-      ],
-      utilisateurId: userId,
+      ]
     };
 
     try {
@@ -221,7 +219,7 @@ export const useContactStores = create<contactTypes>((set, get) => ({
     console.log(contact);
     setNewContact({ nom: "", telephone: "", groupe: "Clients" });
     setShowAddContactModal(false);
-    listerContacts(userId);
+    listerContacts();
 
     /**
      * 
@@ -239,8 +237,8 @@ export const useContactStores = create<contactTypes>((set, get) => ({
      */
     //setNotifications(successNotif);
   },
-  listerContacts: async (userId) => {
-    const response = await api.get(`/contact/lister-contacts/${userId}`);
+  listerContacts: async () => {
+    const response = await api.get("/contact/lister-contacts");
 
     set({ contacts: response.data.data });
   },
@@ -298,7 +296,7 @@ export const useContactStores = create<contactTypes>((set, get) => ({
 
     reInitialiserContact();
     setShowAddContactModal(false);
-    listerContacts(userId);
+    listerContacts();
 
     /**
      * 

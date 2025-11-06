@@ -8,13 +8,13 @@ import {
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import { useAuthStore } from "./stores/authStore";
-import Layout from "./pages/Layout";
 import { Sms } from "./pages/Sms";
 import { Historique } from "./pages/Historique";
 import { Contacts } from "./pages/Contacts";
 import { Dashboard } from "./pages/Dashboard";
 import Parametres from "./pages/Parametre";
 import Services from "./pages/Service";
+import TemplatesSMS from "./pages/Template";
 
 // Composant de protection de route (pour s'assurer que l'utilisateur est connecté)
 const ProtectedRoute: React.FC<{ element: React.ReactNode }> = ({
@@ -40,6 +40,7 @@ const App: React.FC = () => {
           <Route path="/send-sms" element={<ProtectedRoute element={<Sms />} />} />
           <Route path="/parametre" element={<ProtectedRoute element={<Parametres />} />} />
           <Route path="/service" element={<ProtectedRoute element={<Services />} />} />
+          <Route path="/template" element={<ProtectedRoute element={<TemplatesSMS />} />} />
 
           {/* Redirection par défaut */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />

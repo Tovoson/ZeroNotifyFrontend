@@ -19,24 +19,15 @@ export const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     
-    let token = null;
-
-    try {
-      
-      const authStorage = localStorage.getItem('auth-storage');
-      if(authStorage){
-        const authData = JSON.parse(authStorage)
-        token = authData.state.token
-      }
-    } catch (error) {
-      console.warn('Erreur lecture storage:', error);
-    }
+    const token = useAuthStore.getState().user?.token;
     
-
     if (token) {
-      // Si un token existe, l'ajouter à l'en-tête Authorization
       config.headers.Authorization = `Bearer ${token}`;
+      console.log('🔐 Token ajouté:', token.substring(0, 20) + '...');
+    } else {
+      console.warn('⚠️ Aucun token disponible');
     }
+
     return config;
   },
   (error) => {

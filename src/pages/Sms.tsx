@@ -32,7 +32,7 @@ export const Sms = () => {
     segmentsSMS,
     loading,
     handleSubmit,
-    handleImportCSV,
+    handleImportFile,
     reInitialiser,
   } = useSmsStore();
 
@@ -140,8 +140,8 @@ export const Sms = () => {
                     <span className="text-sm font-semibold">Import CSV</span>
                     <input
                       type="file"
-                      accept=".csv"
-                      onChange={handleImportCSV}
+                      accept=".csv, .xlsx"
+                      onChange={handleImportFile}
                       className="hidden"
                     />
                   </label>

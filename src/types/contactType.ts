@@ -26,9 +26,9 @@ export interface contactTypes{
     addContact: (contact: Contacts) => void;
     addNewContact: (field: keyof newcontact, value: string) => void;
     setShowAddContactModal: (showAddContactModal: boolean) => void;
-    handleImportContactsCSV: (e:any, userId: number) => void;
-    handleAddContact: (userId: number) => void;
-    listerContacts: (userId: number) => void;
+    handleImportContactsCSV: (e:any) => void;
+    handleAddContact: () => void;
+    listerContacts: () => void;
     handleDeleteContact: (contactId: number, userId: number) => void;
     handleModifierContact: (userId: number) => void;
     selectContactByPk: (contactId: number) => void;

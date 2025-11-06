@@ -76,7 +76,7 @@ export const Contacts: React.FC = () => {
 
   useEffect(() => {
     if (user?.id) {
-      listerContacts(user.id);
+      listerContacts();
     }
     calculateGroupStats();
   }, [user?.id, listerContacts]);
@@ -105,7 +105,7 @@ export const Contacts: React.FC = () => {
                   <input
                     type="file"
                     accept=".csv"
-                    onChange={(e) => handleImportContactsCSV(e, user.id)}
+                    onChange={(e) => handleImportContactsCSV(e)}
                     className="hidden"
                   />
                 </label>

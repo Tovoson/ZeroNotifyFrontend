@@ -68,7 +68,7 @@ export const useAuthStore = create<AuthState>()(
             id: response.data.data.id,
             nom: response.data.data.nom,
             email: response.data.data.email,
-            entreprise: response.data.entreprise,
+            entreprise: response.data.data.entreprise,
             token: response.data.token,
           };
 
@@ -123,7 +123,7 @@ export const useAuthStore = create<AuthState>()(
       name: "auth-store",
       partialize: (state) => ({
         user: state.user,
-        token: state.token,
+        //token: state.token,
       }),
     }
   )
