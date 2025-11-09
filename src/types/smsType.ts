@@ -13,7 +13,10 @@ export interface SmsState {
   contenu: string;
   datePlanifiee: string;
   loading: boolean;
-  notifications: Notification[]
+  notifications: Notification[],
+  quotaSms: number;
+  detailsError: Record<string, any>;
+  showCreateModal: boolean;
 
   setSmsType: (setType: string) => void;
   setDestinataires: (destinataires: string[]) => void;
@@ -23,13 +26,16 @@ export interface SmsState {
   ajouterDestinataire: () => void;
   supprimerDestinataire: (index: number) => void;
   updateDestinataire: (index: number, value: string) => void;
-  caractereRestants: () => number;
+  caractereRestants: (template: string) => number;
   segmentsSMS: () => number;
   setLoading: (loading: boolean) => void;
-  handleSubmit : (e: any, userId: number) => void;
+  handleSubmit : (e: any) => void;
   handleImportFile : (e: any) => void;
   reInitialiser: () => void;
   setNotifications: (newNotif: Notification) => void;
   ajouterDestinataires: (phones: string[]) => void;
+  setQuotaSms: (quotaSms: number) => void;
+  getQuotaSms: () => Promise<void>;
+  setShowCreateModal: (show: boolean) => void;
 
 }

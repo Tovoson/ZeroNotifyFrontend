@@ -14,6 +14,9 @@ import Layout from "./Layout";
 import { Header } from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/authStore";
+import { useTemplateStore } from "../stores/useTemplateStore";
+import { useTheme } from "../hooks/useTheme";
+import { ModalError } from "../components/modalError";
 export const Sms = () => {
   const {
     smsType,
@@ -34,10 +37,14 @@ export const Sms = () => {
     handleSubmit,
     handleImportFile,
     reInitialiser,
+    
   } = useSmsStore();
+
+  useTheme();
 
   const { setActiveMenu } = useStores();
   const {user} = useAuthStore()
+  const {isUseTemplate, useTemplate, reInitializeTemplate} = useTemplateStore()
   const navigate = useNavigate()
 
   if (!user) {
@@ -47,8 +54,8 @@ export const Sms = () => {
   return (
     <Layout>
       <Header />
-      <div className="p-8">
-        <form onSubmit={ (e) => handleSubmit(e, user.id)} className="max-w-5xl mx-auto">
+      <div className="p-8 bg-gray-100 dark:bg-gray-800 transition-colors duration-200">
+        <form onSubmit={ (e) => handleSubmit(e)} className="max-w-5xl mx-auto">
           {/* Type de SMS */}
           <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 mb-6">
             <h2 className="text-lg font-bold text-slate-900 mb-4">
@@ -97,6 +104,8 @@ export const Sms = () => {
               </button>
             </div>
           </div>
+
+          <ModalError />
 
           {/* Expéditeur */}
           <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 mb-6">
@@ -179,6 +188,7 @@ export const Sms = () => {
                       placeholder={`+261 34 00 000 0${index + 1}`}
                       className="flex-1 px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                     />
+
                     {destinataires.length > 1 && (
                       <button
                         type="button"
@@ -223,21 +233,22 @@ export const Sms = () => {
               </div>
             </div>
             <textarea
-              value={contenu}
+              value={isUseTemplate ? useTemplate.contenuTemplate : contenu}
               onChange={(e) => setContenu(e.target.value)}
               placeholder="Écrivez votre message ici..."
               rows={6}
               className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none"
               required
+              disabled={isUseTemplate}
             />
             <div className="mt-2 flex items-center justify-between text-xs">
               <span
-                className={`font-medium ${caractereRestants() < 20
+                className={`font-medium ${caractereRestants(useTemplate.contenuTemplate) < 20
                     ? "text-orange-500"
                     : "text-slate-500"
                   }`}
               >
-                {caractereRestants()} caractères restants dans ce segment
+                {caractereRestants(useTemplate.contenuTemplate)} caractères restants dans ce segment
               </span>
               <span className="text-slate-400">
                 Coût estimé:{" "}
@@ -251,7 +262,10 @@ export const Sms = () => {
           <div className="flex gap-4">
             <button
               type="button"
-              onClick={() => reInitialiser()}
+              onClick={() => {
+                reInitializeTemplate();
+                reInitialiser();
+              } }
               className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-xl transition-colors font-semibold"
             >
               Réinitialiser

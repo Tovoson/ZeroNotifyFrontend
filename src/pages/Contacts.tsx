@@ -61,6 +61,8 @@ export const Contacts: React.FC = () => {
     const phones = selected.map((c) => c.telephone);
     ajouterDestinataires(phones);
     setSelectedContacts([]);
+
+    console.log(selected);
     setActiveMenu("sms");
   };
 

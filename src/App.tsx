@@ -15,6 +15,8 @@ import { Dashboard } from "./pages/Dashboard";
 import Parametres from "./pages/Parametre";
 import Services from "./pages/Service";
 import TemplatesSMS from "./pages/Template";
+import { useTheme } from "./hooks/useTheme";
+import { useEffect } from "react";
 
 // Composant de protection de route (pour s'assurer que l'utilisateur est connecté)
 const ProtectedRoute: React.FC<{ element: React.ReactNode }> = ({
@@ -25,9 +27,19 @@ const ProtectedRoute: React.FC<{ element: React.ReactNode }> = ({
 };
 
 const App: React.FC = () => {
+
+  const { theme } = useTheme();
+  
+  // Debug
+  useEffect(() => {
+    console.log('Theme actuel:', theme);
+    console.log('data-theme sur html:', document.documentElement.getAttribute('data-theme'));
+  }, [theme]);
+
   return (
     <Router>
-      <div className="h-full w-full bg-gray-100">
+      <div className="h-full w-full bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
+      
         {/* Toaster pour les notifications */}
         <Toaster position="top-right" reverseOrder={false} />
         <Routes>

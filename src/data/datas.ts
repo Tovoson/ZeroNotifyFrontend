@@ -16,7 +16,7 @@ import {
 import type { Contacts } from "../types/contactType";
 
 export const menuItems = [
-  { id: "dashboard", label: "Dashboard", path: '/das                  hboard', icon: BarChart3 },
+  { id: "dashboard", label: "Dashboard", path: '/dashboard', icon: BarChart3 },
   { id: "sms", label: "Envoyer SMS", path: '/send-sms', icon: Send },
   { id: "contacts", label: "Contacts", path: '/contact', icon: Users },
   { id: "template", label: "Templates SMS", path: '/template', icon: LayoutTemplate},

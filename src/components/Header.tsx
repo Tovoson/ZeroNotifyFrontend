@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useStores } from "../stores/stores";
-import { Bell, LogOut, MessageCircleIcon } from "lucide-react";
+import { Bell } from "lucide-react";
 import { NotificationIcon } from "../pages/Layout";
-import { useAuthStore } from "../stores/authStore";
+import { useSmsStore } from "../stores/smsStore";
 
 export const Header = () => {
   const { activeMenu } = useStores();
-  const {logout} = useAuthStore()
+  const {quotaSms, getQuotaSms} = useSmsStore()
 
   const notifs = [
     { id: 'Jan', title: "notif1", message: "mon message", time: "time", type: "nofits" },
@@ -14,13 +14,17 @@ export const Header = () => {
   const [notifications, setNotifications] = useState(notifs);
   const [showNotifications, setShowNotifications] = useState(false);
 
+  useEffect(() => {
+    getQuotaSms();
+  }, []);
+
 
   return (
     <header className="flex flex-row items-center justify-between bg-white/80 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-40">
       <div className="px-8 py-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold bg-linear-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">
               {activeMenu === "dashboard"
                 ? "Tableau de Bord"
                 : activeMenu === "sms"
@@ -40,6 +44,11 @@ export const Header = () => {
             </p>
           </div>
         </div>
+      </div>
+
+      <div className="flex flex-col items-center justify-center">
+        <span>nombre de message</span>
+        <span> {quotaSms} </span>
       </div>
 
       {/* Notifications */}
@@ -92,12 +101,6 @@ export const Header = () => {
             </div>
           </div>
         )}
-
-<button
-          onClick={() => logout()}
-          className="relative p-3 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
-        >
-        <LogOut/></button>
       </div>
     </header>
   );

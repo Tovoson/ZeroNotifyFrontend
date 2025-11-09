@@ -21,12 +21,15 @@ export interface templateState {
     templates: Templates[];
     newTemplate: NewTemplate;
     showCreateModal: boolean;
+    isUseTemplate: boolean;
+    useTemplate: Templates;
 
     setTemplates: (templates: Templates[]) => void;
     handleCreateTemplate: (extractV: string[]) => void;
     setNewTemplate: (newTemplate: NewTemplate) => void;
     setShowCreateModal: (showCreateModal: boolean) => void;
-    reInitialize: () => void;
+    reInitializeTemplate: () => void;
     getAllTemplates: () => Promise<void>;
     deleteTemplate: (id: number) => void;
+    setUseTemplates: (template: Templates) => void;
 }

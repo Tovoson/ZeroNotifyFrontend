@@ -58,3 +58,9 @@ export interface States{
   setSidebarOpen: (sidebarOpen: boolean) => void;
   syncActiveMenuFromURL: () => void; 
 }
+
+export interface themeState {
+  theme: string;
+  toggleTheme: () => void;
+  setTheme: (newTheme: string) => void;
+}

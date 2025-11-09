@@ -6,6 +6,7 @@ import { useTemplateStore } from '../stores/useTemplateStore';
 import { extractVariables } from '../utils/validateur';
 import type { Templates } from '../types/templateType';
 import { useNavigate } from 'react-router';
+import { useStores } from '../stores/stores';
 
 const TemplatesSMS = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -13,7 +14,8 @@ const TemplatesSMS = () => {
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<Templates | null>(null);
   const navigate = useNavigate();
-  const { templates, setTemplates, deleteTemplate, showCreateModal, setShowCreateModal, handleCreateTemplate, newTemplate, setNewTemplate, getAllTemplates } = useTemplateStore();
+  const { templates, setUseTemplates, setTemplates, deleteTemplate, showCreateModal, setShowCreateModal, handleCreateTemplate, newTemplate, setNewTemplate, getAllTemplates } = useTemplateStore();
+  const { setActiveMenu } = useStores();
 
 const categoriesTemplate = [
     { id: 'tous', label: 'Tous', icon: MessageSquare, count: templates.length },
@@ -71,9 +73,8 @@ const categoriesTemplate = [
   };
 
   const useTemplate = (template: Templates) => {
-    setTemplates(templates.map(t =>
-      t.id === template.id ? { ...t, utilisationTemplate: t.utilisationTemplate + 1 } : t
-    ));
+
+    setUseTemplates(template);
 
     navigate('/send-sms');
     console.log('Utiliser template:', template);
@@ -256,6 +257,7 @@ const categoriesTemplate = [
               onClick={() => {
                 useTemplate(selectedTemplate);
                 setShowPreviewModal(false);
+                setActiveMenu('sms');
               }}
               className="w-full mt-6 px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
             >

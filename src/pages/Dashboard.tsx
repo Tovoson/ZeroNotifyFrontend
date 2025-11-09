@@ -2,18 +2,22 @@ import { Clock, Send, Users } from "lucide-react";
 import { useSmsStore } from "../stores/smsStore";
 import { recentActivity, stats } from "../data/datas";
 import { useStores } from "../stores/stores";
-import { useAuthStore } from "../stores/authStore";
 import { Charts } from "../components/Charts";
 import { Header } from "../components/Header";
 import Layout from "./Layout";
+import { useThemeStore } from "../stores/themeStore";
+import { useEffect } from "react";
+import { useTheme } from "../hooks/useTheme";
 
 export const Dashboard = () => {
   const { setSmsType } = useSmsStore();
   const { setActiveMenu } = useStores();
+
+  useTheme()
   return (
     <Layout>
       <Header />
-      <div className="p-8">
+      <div className="p-8 bg-gray-100 dark:bg-gray-800 transition-colors duration-200">
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat: any, index: number) => {
