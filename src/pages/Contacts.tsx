@@ -103,7 +103,7 @@ export const Contacts: React.FC = () => {
               <div className="flex gap-3">
                 <label className="px-4 py-2 cursor-pointer bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors flex items-center gap-2">
                   <Upload className="w-4 h-4" />
-                  <span className="font-semibold text-sm">Importer CSV</span>
+                  <span className="font-semibold text-sm">Importer un Fichier Excel</span>
                   <input
                     type="file"
                     accept=".csv"
@@ -132,7 +132,7 @@ export const Contacts: React.FC = () => {
                   value={searchContact}
                   onChange={(e) => setSearchContact(e.target.value)}
                   placeholder="Rechercher un contact..."
-                  className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full pl-10 text-gray-400 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               {selectedContacts.length > 0 && (

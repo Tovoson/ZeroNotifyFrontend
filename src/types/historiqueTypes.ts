@@ -8,16 +8,22 @@ export interface BadgeConfig {
 
 export interface SMSDetails {
   id: number;
-  statut: "envoye" | "echec" | "planifie" | "en_attente";
   expediteur: string;
-  type: "simple" | "groupe" | "planifie"
+  destinataires: string[];
+  contenu: string | string[];
+  statut: "en_attente" | "envoye" | "planifie" | "echec";
+  dateEnvoi: string | null;
+  date_planifiee: string | null;
   total: number;
   envoyes: number;
   echecs: number;
-  dateEnvoi?: string;
-  datePlanifiee?: string | null;
-  contenu: string;
-  destinataires: string[];
+  type: "simple" | "groupe" | "planifie";
+  isPlaned: boolean;
+  templateId: number | null;
+  createdAt: string;
+  updatedAt: string;
+  utilisateur_id?: number;
+  contact_id?: number | null;
 }
 
 export interface HistoriqueState{
@@ -25,5 +31,5 @@ export interface HistoriqueState{
     allSms: SMSDetails[],
 
     setIsLoading: (isLoading: boolean) => void;
-    getAllSms: (userId: number) => Promise<void>
+    getAllSms: () => Promise<void>
 }

@@ -59,9 +59,11 @@ export const Historique = () => {
   }
 
   useEffect(() =>{
-    getAllSms(user.id);
+    getAllSms();
     console.log("by all sms data", allSms);
   }, [user.id])
+
+  console.log(selectedSMS?.contenu);
 
 
   return (
@@ -165,17 +167,22 @@ export const Historique = () => {
                   <p className="text-sm font-semibold text-slate-900 mb-2">
                     Message
                   </p>
-                  <div className="p-4 bg-slate-50 rounded-xl">
-                    <p className="text-slate-700">{selectedSMS.contenu}</p>
-                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-200">
-                      <span className="text-xs text-slate-500">
-                        {selectedSMS.contenu.length} caractères
-                      </span>
-                      <span className="text-xs text-slate-500">
-                        {Math.ceil(selectedSMS.contenu.length / 160)} segment(s)
-                      </span>
+                  <div className="max-h-60 overflow-y-auto flex flex-col g-1">
+
+                
+                        <div className="p-4 bg-slate-50 rounded-xl g-1">
+                          <p className="text-slate-700">{selectedSMS.contenu}</p>
+                          <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-200">
+                            <span className="text-xs text-slate-500">
+                              {selectedSMS.contenu.length} caractères
+                            </span>
+                            <span className="text-xs text-slate-500">
+                              {Math.ceil(selectedSMS.contenu.length / 160)} segment(s)
+                            </span>
+                          </div>
+                        </div>
+                   
                     </div>
-                  </div>
                 </div>
 
                 {/* Destinataires */}
@@ -351,7 +358,7 @@ export const Historique = () => {
                             {sms.expediteur}
                           </p>
                           <p className="text-sm text-slate-500">
-                            {sms.dateEnvoi ||
+                            {formatDate(sms.dateEnvoi) ||
                               `Planifié pour ${sms.datePlanifiee}`}
                           </p>
                         </div>
@@ -364,14 +371,16 @@ export const Historique = () => {
                     </div>
 
                     <p className="text-slate-600 text-sm mb-3 line-clamp-2">
-                      {sms.contenu}
+                      {sms.contenu.length
+                      }
+                      
                     </p>
 
                     <div className="flex items-center gap-6 text-sm">
                       <div className="flex items-center gap-2">
                         <Users className="w-4 h-4 text-slate-400" />
                         <span className="text-slate-600">
-                          {sms.total} destinataire(s)
+                          {sms.destinataires.length} destinataire(s)
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
@@ -384,7 +393,7 @@ export const Historique = () => {
                         <div className="flex items-center gap-2">
                           <XCircle className="w-4 h-4 text-red-500" />
                           <span className="text-slate-600">
-                            {sms.echecs} échec(s)
+                            {sms.echec} échec(s)
                           </span>
                         </div>
                       )}

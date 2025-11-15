@@ -100,7 +100,7 @@ const Register: React.FC = () => {
                   value={registerData.nom}
                   onChange={(e) => setRegisterData("nom", e.target.value)}
                   placeholder="Dupont"
-                  className={`w-full pl-11 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all ${errors.nom
+                  className={`w-full text-slate-400 pl-11 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all ${errors.nom
                       ? "border-red-300 focus:ring-red-500"
                       : "border-slate-200 focus:ring-purple-500"
                     }`}
@@ -123,7 +123,7 @@ const Register: React.FC = () => {
                   value={registerData.entreprise}
                   onChange={(e) => setRegisterData("entreprise", e.target.value)}
                   placeholder="entreprise"
-                  className={`w-full pl-11 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all ${errors.email
+                  className={`w-full text-slate-400 pl-11 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all ${errors.email
                       ? "border-red-300 focus:ring-red-500"
                       : "border-slate-200 focus:ring-purple-500"
                     }`}
@@ -145,8 +145,8 @@ const Register: React.FC = () => {
                   type="email"
                   value={registerData.email}
                   onChange={(e) => setRegisterData("email", e.target.value)}
-                  placeholder="votre@email.com"
-                  className={`w-full pl-11 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all ${errors.email
+                  placeholder="email@email.com"
+                  className={`w-full pl-11 text-slate-400 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all ${errors.email
                       ? "border-red-300 focus:ring-red-500"
                       : "border-slate-200 focus:ring-purple-500"
                     }`}
@@ -171,7 +171,7 @@ const Register: React.FC = () => {
                     setRegisterData("mot_de_passe", e.target.value)
                   }
                   placeholder="••••••••"
-                  className={`w-full pl-11 pr-12 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all ${errors.mot_de_passe
+                  className={`w-full pl-11 text-slate-400 pr-12 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all ${errors.mot_de_passe
                       ? "border-red-300 focus:ring-red-500"
                       : "border-slate-200 focus:ring-purple-500"
                     }`}
@@ -226,7 +226,7 @@ const Register: React.FC = () => {
                     setRegisterData("confirmPassword", e.target.value)
                   }
                   placeholder="••••••••"
-                  className={`w-full pl-11 pr-12 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all ${errors.confirmPassword
+                  className={`w-full pl-11 pr-12 text-slate-400 py-3 border rounded-xl focus:outline-none focus:ring-2 transition-all ${errors.confirmPassword
                       ? "border-red-300 focus:ring-red-500"
                       : "border-slate-200 focus:ring-purple-500"
                     }`}

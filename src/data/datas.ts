@@ -21,7 +21,7 @@ export const menuItems = [
   { id: "contacts", label: "Contacts", path: '/contact', icon: Users },
   { id: "template", label: "Templates SMS", path: '/template', icon: LayoutTemplate},
   { id: "historique", label: "Historique", path: '/history', icon: Clock },
-  { id: "services", label: "Services", path: '/service', icon: MessageSquare },
+  /* { id: "services", label: "Services", path: '/service', icon: MessageSquare }, */
   { id: "settings", label: "Paramètres", path: '/parametre', icon: Settings },
 ];
 
@@ -282,4 +282,43 @@ const TemplateData = [
       createdAt: '2025-09-28'
     }
   ];
+
+export const num = [
+  '340000001',
+  '340000002',
+  '340000003',
+  '340000004',
+  '340000005',
+]
+
+export const nom = [
+  'Jean Dupont',
+  'Marie Martin',
+  'Pierre Rakoto',
+  'Sophie Randria',
+  'Luc Razaf',
+]
+
+export const information = [
+  {
+    nom: "tovo",
+    lieu: "Antananarivo",
+  },
+  {
+    nom: "lina",
+    lieu: "Toamasina",
+  },
+  {
+    nom: "hery",
+    lieu: "Fianarantsoa",
+  },
+  {
+    nom: "soja",
+    lieu: "Mahajanga",
+  },
+  {
+    nom: "mamy",
+    lieu: "Toliara",
+  }
+]
 

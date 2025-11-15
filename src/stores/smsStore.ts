@@ -14,6 +14,16 @@ export const useSmsStore = create<SmsState>((set, get) => ({
   datePlanifiee: "",
   loading: false,
   notifications: notifs,
+  quotaSms: 0,
+  detailsError: {},
+  showCreateModal: false,
+  destinatairesDynamique: [],
+  showProgress: false,
+  progressPercent: 0,
+  progressEnvoyes: 0,
+  progressEchecs: 0,
+  progressTotal: 0,
+  progressStatus: "idle",
 
   setSmsType: (smsType) => set({ smsType }),
   setDestinataires: (destinataires) => set({ destinataires }),
@@ -21,9 +31,6 @@ export const useSmsStore = create<SmsState>((set, get) => ({
   setContenu: (contenu) => set({ contenu: contenu }),
   setDatePlanifiee: (datePlanifiee) => set({ datePlanifiee }),
   setLoading: (loading) => set({ loading }),
-  quotaSms: 0,
-  detailsError: {},
-  showCreateModal: false,
 
   setQuotaSms: (quotaSms) => set({ quotaSms }),
   ajouterDestinataire: () => {
@@ -61,94 +68,166 @@ export const useSmsStore = create<SmsState>((set, get) => ({
     e.preventDefault();
     set({ loading: true });
 
-    const { expediteur, destinataires, contenu, smsType, datePlanifiee } =
-      get();
+    const {
+      expediteur,
+      destinataires,
+      contenu,
+      smsType,
+      datePlanifiee,
+      destinatairesDynamique,
+      reInitialiser,
+    } = get();
     const { isUseTemplate, useTemplate, reInitializeTemplate } =
       useTemplateStore.getState();
 
-    const finalContenu = isUseTemplate ? useTemplate.contenuTemplate : contenu;
-
     try {
+      // ✅ Afficher la barre de progression
+      const total = isUseTemplate 
+        ? destinatairesDynamique.length 
+        : destinataires.length;
+
+      set({
+        showProgress: true,
+        progressStatus: "loading",
+        progressPercent: 0,
+        progressEnvoyes: 0,
+        progressEchecs: 0,
+        progressTotal: total,
+      });
+
+      let response;
+
+      //Si template existe
       if (isUseTemplate) {
         const payload = {
           expediteur: expediteur || "ZeroNotify",
-          destinataires: destinataires.filter((d) => d.trim() !== ""),
-          contenu: finalContenu,
+          destinataires: destinatairesDynamique,
           templateId: useTemplate.id,
           ...(smsType === "planifie" && datePlanifiee && { datePlanifiee }),
         };
 
-        const responseTemplate = await api.post(
-          "/sms/send-using-template",
-          payload
-        );
-        toast.success("SMS envoyé:" + responseTemplate.data.message);
-        console.log(responseTemplate.data.message);
+        response = await api.post("/sms/send-using-template", payload);
       } else {
+        const dest = destinatairesDynamique.map(
+          (destinataire) => destinataire.numero
+        );
 
         const payload = {
           expediteur: expediteur || "ZeroNotify",
-          destinataires: destinataires.filter((d) => d.trim() !== ""),
+          destinataires:
+            destinataires.length === 1
+              ? destinataires
+              : dest.filter((d) => d.trim() !== ""),
           contenu: contenu,
           templateId: null,
           ...(smsType === "planifie" && datePlanifiee && { datePlanifiee }),
         };
 
-        const response = await api.post("/sms/send-sms", payload);
-
-        toast.success("SMS envoyé:" + response.data.message);
-        console.log(response.data.message);
+        response = await api.post("/sms/send-sms", payload);
       }
 
-      // Reset form
+      const data = response.data.data;
+      const percent = Math.round((data.soumis / data.totalDestinataires) * 100);
+
+      set({
+        progressPercent: percent,
+        progressEnvoyes: data.soumis || 0,
+        progressEchecs: data.echecsInsertion || 0,
+        progressStatus: "success",
+      });
+
+      toast.success(response.data.message);
+
+      // Fermer après 2 secondes
+      setTimeout(() => {
+        set({ showProgress: false });
+        set({ destinataires: [""], contenu: "", datePlanifiee: "" });
+        reInitializeTemplate();
+      }, 2000);
+
       set({ destinataires: [""], contenu: "", datePlanifiee: "" });
       reInitializeTemplate();
-    } catch (error) {
-      console.log(error.response.data.details || error.message);
-      set({ detailsError: error.response.data.details });
-      set({ showCreateModal: true });
+      reInitialiser();
+      set({ loading: false });
+    } catch (error: any) {
+      console.error("Erreur envoi SMS:", error);
+
+      // ✅ Afficher l'erreur
+      set({
+        progressStatus: "error",
+        progressPercent: 0,
+      });
+
+      toast.error(error.response?.data?.message || "Erreur lors de l'envoi");
+
+      // Fermer après 3 secondes
+      setTimeout(() => {
+        set({ showProgress: false });
+      }, 3000);
     } finally {
       set({ loading: false });
     }
   },
+
   handleImportFile: (e) => {
+    //const { loading } = get();
     const file = e.target.files?.[0];
-    console.log("1. Fichier sélectionné:", file);
 
     if (file) {
       const reader = new FileReader();
 
       reader.onload = (event) => {
-        const arrayBuffer = event.target?.result;
+        try {
+          set({ loading: true });
+          //console.log(loading);
 
-        if (arrayBuffer instanceof ArrayBuffer) {
-          const workbook = XLSX.read(arrayBuffer, { type: "array" });
+          const arrayBuffer = event.target?.result;
 
-          const firstSheetName = workbook.SheetNames[0];
-          const worksheet = workbook.Sheets[firstSheetName];
+          if (arrayBuffer instanceof ArrayBuffer) {
+            const workbook = XLSX.read(arrayBuffer, { type: "array" });
 
-          // Convertir en JSON
-          const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
 
-          // Extraire les numéros (colonne B)
-          const phoneNumbers = jsonData
-            .slice(1) // Ignorer l'en-tête
-            .map((row: any) => {
-              console.log("Row:", row);
-              return row[0]; // Colonne A
-            })
-            .filter((num) => {
-              return num;
-            })
-            .map((num) => String(num).trim());
+            // Convertir en JSON
+            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-          set({ destinataires: phoneNumbers });
-        } else {
-          console.error("Pas un ArrayBuffer!");
+            const headers: any = jsonData[0];
+
+            // Extraire les numéros (colonne B)
+            const structuredData = jsonData
+              .slice(1) // Ignorer l'en-tête
+              .map((row: any) => {
+                const rowData: { [key: string]: any } = {};
+
+                row.forEach((value: any, index: number) => {
+                  const headerName = String(headers[index]).trim();
+
+                  rowData[headerName] = String(value).trim();
+                });
+
+                return rowData;
+              })
+              .filter((row) => {
+                return row && row["numero"];
+              });
+
+            set({ destinatairesDynamique: structuredData });
+
+            //console.log("10. Fichier importé:", structuredData);
+            //console.log(loading);
+          } else {
+            console.error("Pas un ArrayBuffer!");
+          }
+        } catch (error) {
+          console.log(error);
+        } finally {
+          set({ loading: false });
         }
       };
 
       reader.onerror = (error) => {
+        set({ loading: false });
         console.error("Erreur FileReader:", error);
       };
 
@@ -162,6 +241,7 @@ export const useSmsStore = create<SmsState>((set, get) => ({
       destinataires: [""],
       datePlanifiee: "",
       expediteur: "",
+      destinatairesDynamique: [],
     }),
   setNotifications: (newNotif) => {
     const { notifications } = get();

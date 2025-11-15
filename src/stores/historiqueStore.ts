@@ -1,17 +1,16 @@
 import { create } from "zustand";
 import type { HistoriqueState } from "../types/historiqueTypes";
-import { historiqueData } from "../data/datas";
 import api from "../utils/api";
 
 export const useHistoriqueStore = create<HistoriqueState>((set, get) => ({
   isLoading: false,
-  allSms: historiqueData,
+  allSms: [],
 
   setIsLoading: (isLoading) => set({ isLoading }),
-  getAllSms: async (userId) => {
+  getAllSms: async () => {
 
     try {
-      const response = await api.get(`/sms/get-all-sms/${userId}`);
+      const response = await api.get("/sms/get-all-sms");
 
       set({allSms: response.data.data})
     } catch (error) {

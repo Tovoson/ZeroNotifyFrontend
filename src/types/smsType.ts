@@ -6,6 +6,10 @@ interface Notification {
   type: string;
 }
 
+export interface DestinataireDyn{
+  [key: string]: any;
+}
+
 export interface SmsState {
   smsType: string;
   destinataires: string[];
@@ -17,6 +21,14 @@ export interface SmsState {
   quotaSms: number;
   detailsError: Record<string, any>;
   showCreateModal: boolean;
+  destinatairesDynamique: DestinataireDyn[];
+
+  showProgress: boolean;
+  progressPercent: number;
+  progressEnvoyes: number;
+  progressEchecs: number;
+  progressTotal: number;
+  progressStatus: 'loading' | 'success' | 'error' | 'idle';
 
   setSmsType: (setType: string) => void;
   setDestinataires: (destinataires: string[]) => void;

@@ -45,13 +45,13 @@ const Login: React.FC = () => {
                 Adresse email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                <Mail className="absolute text-gray-400 left-3 top-1/2 -translate-y-1/2 w-5 h-5" />
                 <input
                   type="email"
                   value={loginData.email}
                   onChange={(e) => setLoginData("email", e.target.value)}
                   placeholder="email@gmail.com"
-                  className="w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                  className="w-full pl-11 pr-4 py-3 text-gray-400 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
                   
                 />
               </div>
@@ -69,7 +69,7 @@ const Login: React.FC = () => {
                   value={loginData.mot_de_passe}
                   onChange={(e) => setLoginData("mot_de_passe", e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-11 pr-12 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                  className="w-full pl-11 pr-12 py-3 text-slate-400 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
                  
                 />
                 <button

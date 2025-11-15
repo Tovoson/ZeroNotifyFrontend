@@ -111,7 +111,10 @@ export const useAuthStore = create<AuthState>()(
           set({ isLoading: false });
         }
       },
-      logout: () => set({ user: null }),
+      logout: () => {
+        set({ user: null })
+        localStorage.removeItem('app-store');
+      },
       setLoading: (isLoading) => set({ isLoading }),
       setRememberMe: (rememberMe) => set({ rememberMe }),
       setAcceptTerms: (acceptTerms) => set({ acceptTerms }),

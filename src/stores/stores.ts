@@ -17,6 +17,9 @@ export const useStores = create(
           "/contact": "contact",
           "/send-sms": "sms",
           "/history": "history",
+          "/template": "template",
+          "/service": "service",
+          "/parametre": "parametre",
         };
 
         const menuId = menuMap[path] || "dashboard";
@@ -24,7 +27,7 @@ export const useStores = create(
       },
     }),
     {
-      name: "app-storage", // Nom du stockage
+      name: "app-store", // Nom du stockage
     }
   )
 );

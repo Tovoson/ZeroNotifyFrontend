@@ -30,7 +30,13 @@ export const Header = () => {
                 : activeMenu === "sms"
                 ? "Envoyer un SMS"
                 : activeMenu === "contacts"
-                ? "Gestion des Contacts"
+                ? "Gestion des Contacts":
+                activeMenu === "history"
+                ? "Historique des SMS":
+                activeMenu === "parametre"
+                ? "Paramètres":
+                  activeMenu === "template"
+                ? "Templates"
                 : "Section"}
             </h1>
             <p className="text-slate-500 mt-1">
@@ -40,16 +46,27 @@ export const Header = () => {
                 ? "Envoyez des SMS individuels, groupés ou planifiés"
                 : activeMenu === "contacts"
                 ? "Gérez vos contacts et groupes"
-                : "Description"}
+                :activeMenu === "history"
+                ? "Historique de vos envois de SMS"
+                : activeMenu === "parametre"
+                ? "Paramètres"
+              : "Description"}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center">
-        <span>nombre de message</span>
-        <span> {quotaSms} </span>
-      </div>
+     <div className="flex items-center gap-3 px-4 py-2.5 bg-white rounded-xl border border-gray-200 shadow-sm">
+  <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg">
+    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+    </svg>
+  </div>
+  <div className="flex flex-col">
+    <span className="text-xs text-gray-500 font-medium">Messages restants</span>
+    <span className="text-2xl font-bold text-gray-900">{quotaSms}</span>
+  </div>
+</div>
 
       {/* Notifications */}
       <div className="relative pr-8 flex flex-row items-center justify-center gap-7">
