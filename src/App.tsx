@@ -41,7 +41,7 @@ const App: React.FC = () => {
       <div className="h-full w-full bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
       
         {/* Toaster pour les notifications */}
-        <Toaster position="top-right" reverseOrder={false} />
+        <Toaster position="top-center" reverseOrder={false} />
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />

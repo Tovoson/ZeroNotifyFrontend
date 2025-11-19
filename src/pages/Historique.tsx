@@ -11,7 +11,6 @@ import {
   XCircle,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { historiqueData } from "../data/datas";
 import { Header } from "../components/Header";
 import Layout from "./Layout";
 import type { BadgeConfig, SMSDetails, Statut } from "../types/historiqueTypes";
@@ -20,18 +19,84 @@ import { useAuthStore } from "../stores/authStore";
 import { formatDate } from "../utils/validateur";
 
 export const Historique = () => {
-  // États pour l'historique
-  const [historique, setHistorique] = useState(historiqueData);
   const [searchHistorique, setSearchHistorique] = useState("");
   const [filterStatut, setFilterStatut] = useState("tous");
   const [selectedSMS, setSelectedSMS] = useState<SMSDetails | null>(null);
-  const {getAllSms, allSms} = useHistoriqueStore()
-  const {user} = useAuthStore()
+  const [isDeleting, setIsDeleting] = useState(false);
+  const { getAllSms, allSms, cancelScheduledSms } = useHistoriqueStore();
+  const { user } = useAuthStore();
+
+  // Fonction pour annuler un SMS planifié
+  const handleCancelScheduled = async (smsId: number) => {
+    if (!confirm("Êtes-vous sûr de vouloir annuler ce SMS planifié ?")) {
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      await cancelScheduledSms(smsId);
+      setSelectedSMS(null);
+      await getAllSms(); // Rafraîchir la liste
+    } catch (error) {
+      console.error("Erreur lors de l'annulation:", error);
+      alert("Erreur lors de l'annulation du SMS planifié");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  // Fonction pour parser le contenu (peut être string ou array)
+  const parseContenu = (contenu: any): string[] => {
+    if (typeof contenu === "string") {
+      try {
+        const parsed = JSON.parse(contenu);
+        return Array.isArray(parsed) ? parsed : [contenu];
+      } catch {
+        return [contenu];
+      }
+    }
+    return Array.isArray(contenu) ? contenu : [String(contenu)];
+  };
+
+  // Fonction pour parser les destinataires
+  const parseDestinataires = (destinataires: any): string[] => {
+    if (typeof destinataires === "string") {
+      try {
+        const parsed = JSON.parse(destinataires);
+        return Array.isArray(parsed) ? parsed : [destinataires];
+      } catch {
+        return [destinataires];
+      }
+    }
+    return Array.isArray(destinataires) ? destinataires : [String(destinataires)];
+  };
+
+  // Fonction pour obtenir un aperçu du contenu
+  const getContenuApercu = (sms: any): string => {
+    const contenus = parseContenu(sms.contenu);
+    
+    if (sms.type === "simple") {
+      return contenus[0] || "";
+    }
+    
+    // Pour les SMS groupés, afficher un résumé
+    if (contenus.length > 1) {
+      return `${contenus.length} messages personnalisés`;
+    }
+    
+    return contenus[0] || "";
+  };
+
+  // Fonction pour calculer la longueur totale des contenus
+  const getTotalLength = (contenus: string[]): number => {
+    return contenus.reduce((acc, c) => acc + c.length, 0);
+  };
 
   const filteredHistorique = allSms.filter((sms) => {
+    const contenus = parseContenu(sms.contenu);
     const matchSearch =
       sms.expediteur.toLowerCase().includes(searchHistorique.toLowerCase()) ||
-      sms.contenu.toLowerCase().includes(searchHistorique.toLowerCase());
+      contenus.some(c => c.toLowerCase().includes(searchHistorique.toLowerCase()));
     const matchStatut = filterStatut === "tous" || sms.statut === filterStatut;
     return matchSearch && matchStatut;
   });
@@ -58,13 +123,9 @@ export const Historique = () => {
     return <div>Veuillez vous connecter</div>;
   }
 
-  useEffect(() =>{
+  useEffect(() => {
     getAllSms();
-    console.log("by all sms data", allSms);
-  }, [user.id])
-
-  console.log(selectedSMS?.contenu);
-
+  }, [user.id]);
 
   return (
     <Layout>
@@ -151,55 +212,131 @@ export const Historique = () => {
                         </span>
                       </div>
                     )}
-                    {selectedSMS.datePlanifiee && (
-                      <div className="flex items-center gap-3 p-3 bg-orange-50 rounded-lg">
-                        <Calendar className="w-4 h-4 text-orange-500" />
-                        <span className="text-sm text-orange-600">
-                          Planifié pour : {selectedSMS.datePlanifiee}
-                        </span>
+                    {selectedSMS.date_planifiee && (
+                      <div className="flex items-center justify-between gap-3 p-3 bg-orange-50 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <Calendar className="w-4 h-4 text-orange-500" />
+                          <span className="text-sm text-orange-600">
+                            Planifié pour : {selectedSMS.date_planifiee}
+                          </span>
+                        </div>
+                        {selectedSMS.statut === "planifie" && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleCancelScheduled(selectedSMS.id);
+                            }}
+                            className="px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold rounded-lg transition-colors flex items-center gap-1"
+                          >
+                            <XCircle className="w-3.5 h-3.5" />
+                            Annuler
+                          </button>
+                        )}
                       </div>
                     )}
                   </div>
                 </div>
 
-                {/* Contenu */}
+                {/* Messages et Destinataires - Version améliorée */}
                 <div>
                   <p className="text-sm font-semibold text-slate-900 mb-2">
-                    Message
+                    {selectedSMS.type === "simple" && parseDestinataires(selectedSMS.destinataires).length > 1
+                      ? `Message envoyé à ${parseDestinataires(selectedSMS.destinataires).length} destinataires`
+                      : `Messages (${parseContenu(selectedSMS.contenu).length})`}
                   </p>
-                  <div className="max-h-60 overflow-y-auto flex flex-col g-1">
-
-                
-                        <div className="p-4 bg-slate-50 rounded-xl g-1">
-                          <p className="text-slate-700">{selectedSMS.contenu}</p>
-                          <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-200">
+                  <div className="max-h-96 overflow-y-auto space-y-3">
+                    {/* Cas 1: SMS simple avec plusieurs destinataires (même message) */}
+                    {selectedSMS.type === "simple" && parseDestinataires(selectedSMS.destinataires).length > 1 ? (
+                      <>
+                        {/* Afficher le message une seule fois */}
+                        <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                          <p className="text-slate-700 whitespace-pre-wrap mb-3">
+                            {parseContenu(selectedSMS.contenu)[0]}
+                          </p>
+                          
+                          {/* Stats du message */}
+                          <div className="flex items-center justify-between pt-2 border-t border-slate-200">
                             <span className="text-xs text-slate-500">
-                              {selectedSMS.contenu.length} caractères
+                              {parseContenu(selectedSMS.contenu)[0].length} caractères
                             </span>
                             <span className="text-xs text-slate-500">
-                              {Math.ceil(selectedSMS.contenu.length / 160)} segment(s)
+                              {Math.ceil(parseContenu(selectedSMS.contenu)[0].length / 160)} segment(s)
                             </span>
                           </div>
                         </div>
-                   
-                    </div>
-                </div>
-
-                {/* Destinataires */}
-                <div>
-                  <p className="text-sm font-semibold text-slate-900 mb-2">
-                    Destinataires ({selectedSMS.destinataires.length})
-                  </p>
-                  <div className="max-h-40 overflow-y-auto space-y-2">
-                    {selectedSMS.destinataires.map((dest, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg"
-                      >
-                        <User className="w-4 h-4 text-slate-500" />
-                        <span className="text-sm text-slate-700">{dest}</span>
+                        
+                        {/* Liste des destinataires */}
+                        <div className="p-4 bg-blue-50 rounded-xl">
+                          <p className="text-sm font-semibold text-slate-700 mb-3">
+                            Destinataires ({parseDestinataires(selectedSMS.destinataires).length})
+                          </p>
+                          <div className="grid grid-cols-2 gap-2">
+                            {parseDestinataires(selectedSMS.destinataires).map((dest, idx) => (
+                              <div
+                                key={idx}
+                                className="flex items-center gap-2 p-2 bg-white rounded-lg"
+                              >
+                                <User className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+                                <span className="text-sm text-slate-700 truncate">
+                                  {dest}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      /* Cas 2: SMS groupé avec messages personnalisés */
+                      parseContenu(selectedSMS.contenu).map((contenu, idx) => {
+                        const destinataires = parseDestinataires(selectedSMS.destinataires);
+                        const destinataire = destinataires[idx] || "Inconnu";
+                        
+                        return (
+                          <div key={idx} className="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                            {/* Destinataire */}
+                            <div className="flex items-center gap-2 mb-3 pb-2 border-b border-slate-200">
+                              <User className="w-4 h-4 text-blue-500" />
+                              <span className="text-sm font-semibold text-slate-700">
+                                {destinataire}
+                              </span>
+                            </div>
+                            
+                            {/* Contenu du message */}
+                            <p className="text-slate-700 whitespace-pre-wrap mb-3">
+                              {contenu}
+                            </p>
+                            
+                            {/* Stats du message */}
+                            <div className="flex items-center justify-between pt-2 border-t border-slate-200">
+                              <span className="text-xs text-slate-500">
+                                {contenu.length} caractères
+                              </span>
+                              <span className="text-xs text-slate-500">
+                                {Math.ceil(contenu.length / 160)} segment(s)
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+                  
+                  {/* Statistiques globales */}
+                  <div className="mt-4 p-4 bg-blue-50 rounded-xl">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-slate-700 font-semibold">Total</span>
+                      <div className="flex gap-4">
+                        <span className="text-slate-600">
+                          {getTotalLength(parseContenu(selectedSMS.contenu))} caractères
+                        </span>
+                        <span className="text-slate-600">
+                          {Math.ceil(
+                            getTotalLength(parseContenu(selectedSMS.contenu)) / 160
+                          )}{" "}
+                          segment(s)
+                        </span>
                       </div>
-                    ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -342,6 +479,10 @@ export const Historique = () => {
             ) : (
               filteredHistorique.map((sms: any) => {
                 const badge = getStatutBadge(sms.statut);
+                const contenus = parseContenu(sms.contenu);
+                const destinataires = parseDestinataires(sms.destinataires);
+                const apercu = getContenuApercu(sms);
+                
                 return (
                   <div
                     key={sms.id}
@@ -350,16 +491,23 @@ export const Historique = () => {
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-linear-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
                           <Send className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                          <p className="font-bold text-slate-900">
-                            {sms.expediteur}
-                          </p>
+                          <div className="flex items-center gap-2">
+                            <p className="font-bold text-slate-900">
+                              {sms.expediteur}
+                            </p>
+                            {sms.type === "groupe" && contenus.length > 1 && (
+                              <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs font-semibold rounded">
+                                Groupe
+                              </span>
+                            )}
+                          </div>
                           <p className="text-sm text-slate-500">
                             {formatDate(sms.dateEnvoi) ||
-                              `Planifié pour ${sms.datePlanifiee}`}
+                              `Planifié pour ${sms.date_planifiee}`}
                           </p>
                         </div>
                       </div>
@@ -371,16 +519,14 @@ export const Historique = () => {
                     </div>
 
                     <p className="text-slate-600 text-sm mb-3 line-clamp-2">
-                      {sms.contenu.length
-                      }
-                      
+                      {apercu}
                     </p>
 
                     <div className="flex items-center gap-6 text-sm">
                       <div className="flex items-center gap-2">
                         <Users className="w-4 h-4 text-slate-400" />
                         <span className="text-slate-600">
-                          {sms.destinataires.length} destinataire(s)
+                          {destinataires.length} destinataire(s)
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
@@ -393,14 +539,14 @@ export const Historique = () => {
                         <div className="flex items-center gap-2">
                           <XCircle className="w-4 h-4 text-red-500" />
                           <span className="text-slate-600">
-                            {sms.echec} échec(s)
+                            {sms.echecs} échec(s)
                           </span>
                         </div>
                       )}
                       <div className="flex items-center gap-2">
                         <MessageSquare className="w-4 h-4 text-slate-400" />
                         <span className="text-slate-600">
-                          {Math.ceil(sms.contenu.length / 160)} segment(s)
+                          {Math.ceil(getTotalLength(contenus) / 160)} segment(s)
                         </span>
                       </div>
                     </div>

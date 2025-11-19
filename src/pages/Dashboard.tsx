@@ -7,11 +7,13 @@ import Layout from "./Layout";
 import { useTheme } from "../hooks/useTheme";
 import { useHistoriqueStore } from "../stores/historiqueStore";
 import { useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Dashboard = () => {
   const { setSmsType } = useSmsStore();
   const { setActiveMenu } = useStores();
   const { allSms, getAllSms, isLoading } = useHistoriqueStore();
+  const navigate = useNavigate()
 
   useEffect(() => {
     getAllSms();
@@ -203,7 +205,10 @@ export const Dashboard = () => {
                 Activité Récente
               </h2>
               <button 
-                onClick={() => setActiveMenu("historique")}
+                onClick={() => {
+                  setActiveMenu("historique");
+                  navigate('/history')
+                }}
                 className="text-blue-500 hover:text-blue-600 text-sm font-semibold"
               >
                 Voir tout
@@ -253,11 +258,14 @@ export const Dashboard = () => {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-6 shadow-lg text-white">
+          <div className="bg-linear-to-br from-blue-500 to-purple-600 rounded-2xl p-6 shadow-lg text-white">
             <h2 className="text-xl font-bold mb-6">Actions Rapides</h2>
             <div className="space-y-3">
               <button
-                onClick={() => setActiveMenu("sms")}
+                onClick={() => {
+                  setActiveMenu("sms");
+                  navigate('/send-sms')
+                } }
                 className="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-xl p-4 text-left transition-all duration-200 hover:scale-105"
               >
                 <div className="flex items-center gap-3">
@@ -269,6 +277,7 @@ export const Dashboard = () => {
                 onClick={() => {
                   setActiveMenu("contacts");
                   setSmsType("contacts");
+                  navigate('/contact')
                 }}
                 className="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-xl p-4 text-left transition-all duration-200 hover:scale-105"
               >
@@ -281,6 +290,7 @@ export const Dashboard = () => {
                 onClick={() => {
                   setActiveMenu("sms");
                   setSmsType("planifie");
+                  navigate('/send-sms')
                 }}
                 className="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-xl p-4 text-left transition-all duration-200 hover:scale-105"
               >

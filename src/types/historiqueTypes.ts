@@ -31,5 +31,6 @@ export interface HistoriqueState{
     allSms: SMSDetails[],
 
     setIsLoading: (isLoading: boolean) => void;
-    getAllSms: () => Promise<void>
+    getAllSms: () => Promise<void>;
+    cancelScheduledSms: (smsId: number) => Promise<any>;
 }

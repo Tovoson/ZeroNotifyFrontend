@@ -3,7 +3,7 @@ import { Plus, Search, Trash2, Copy, Star, MessageSquare, CheckCircle, X, Shoppi
 import Layout from './Layout';
 import { Header } from '../components/Header';
 import { useTemplateStore } from '../stores/useTemplateStore';
-import { extractVariables } from '../utils/validateur';
+import { extractVariables, formatDate } from '../utils/validateur';
 import type { Templates } from '../types/templateType';
 import { useNavigate } from 'react-router';
 import { useStores } from '../stores/stores';
@@ -51,7 +51,7 @@ const categoriesTemplate = [
 
   const toggleFavori = (id: number) => {
     setTemplates(templates.map(t =>
-      t.id === id ? { ...t, favori: !t.favori } : t
+      t.id === id ? { ...t, favoriTemplate: !t.favoriTemplate } : t
     ));
   };
 
@@ -87,7 +87,7 @@ const categoriesTemplate = [
   return (
     <Layout>
       <Header />
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-8">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 p-8">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">Templates SMS</h1>
@@ -182,7 +182,7 @@ const categoriesTemplate = [
               <button
                 onClick={createTemplate}
                 disabled={!newTemplate.nom || !newTemplate.contenu}
-                className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-4 py-3 bg-linear-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Créer le template
               </button>
@@ -259,7 +259,7 @@ const categoriesTemplate = [
                 setShowPreviewModal(false);
                 setActiveMenu('sms');
               }}
-              className="w-full mt-6 px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
+              className="w-full mt-6 px-4 py-3 bg-linear-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
             >
               Utiliser ce template
             </button>
@@ -282,7 +282,7 @@ const categoriesTemplate = [
           </div>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all flex items-center gap-2 whitespace-nowrap"
+            className="px-6 py-3 bg-linear-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all flex items-center gap-2 whitespace-nowrap"
           >
             <Plus className="w-5 h-5" />
             Nouveau template
@@ -300,7 +300,7 @@ const categoriesTemplate = [
               onClick={() => setSelectedCategory(category.id)}
               className={`flex items-center gap-2 px-4 py-3 rounded-xl font-semibold transition-all ${
                 selectedCategory === category.id
-                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg'
+                  ? 'bg-linear-to-r from-blue-500 to-purple-600 text-white shadow-lg'
                   : 'bg-white text-slate-700 hover:bg-slate-50'
               }`}
             >
@@ -326,7 +326,7 @@ const categoriesTemplate = [
           <p className="text-slate-500 mb-6">Créez votre premier template pour commencer</p>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all inline-flex items-center gap-2"
+            className="px-6 py-3 bg-linear-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all inline-flex items-center gap-2"
           >
             <Plus className="w-5 h-5" />
             Créer un template
@@ -386,7 +386,7 @@ const categoriesTemplate = [
                 {/* Statistiques */}
                 <div className="flex items-center gap-4 text-sm text-slate-500 mb-4">
                   <span>📊 {template.utilisationTemplate} utilisations</span>
-                  <span>📅 {template.createdAt}</span>
+                  <span>📅 {formatDate(template.createdAt)}</span>
                 </div>
 
                 {/* Actions */}
@@ -430,23 +430,23 @@ const categoriesTemplate = [
       )}
 
       {/* Info section */}
-      <div className="mt-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-8 text-white">
+      <div className="mt-8 bg-linear-to-r from-blue-500 to-purple-600 rounded-2xl p-8 text-white">
         <h3 className="text-2xl font-bold mb-4">💡 Conseils pour vos templates</h3>
         <ul className="space-y-2">
           <li className="flex items-start gap-3">
-            <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+            <CheckCircle className="w-5 h-5 shrink-0 mt-0.5" />
             <span>Utilisez des variables entre accolades : {'{nom}'}, {'{date}'}, {'{montant}'}</span>
           </li>
           <li className="flex items-start gap-3">
-            <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+            <CheckCircle className="w-5 h-5 shrink-0 mt-0.5" />
             <span>Restez concis : 1 SMS = 160 caractères maximum</span>
           </li>
           <li className="flex items-start gap-3">
-            <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+            <CheckCircle className="w-5 h-5 shrink-0 mt-0.5" />
             <span>Ajoutez un call-to-action clair dans vos messages marketing</span>
           </li>
           <li className="flex items-start gap-3">
-            <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+            <CheckCircle className="w-5 h-5 shrink-0 mt-0.5" />
             <span>Testez vos templates avant de les utiliser en masse</span>
           </li>
         </ul>
