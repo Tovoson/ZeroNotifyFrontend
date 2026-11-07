@@ -4,7 +4,11 @@ import { useEffect } from "react";
 import { AlertCircle, Bell, CheckCircle, XCircle } from "lucide-react";
 import { useSmsStore } from "../stores/smsStore";
 
-export const NotificationIcon = ({ type }: any) => {
+interface Props {
+  type: "success" | "error" | "warning";
+}
+
+export const NotificationIcon = ( { type }: Props ) => {
   switch (type) {
     case "success":
       return <CheckCircle className="w-5 h-5 text-green-500" />;
@@ -23,7 +27,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Système de notifications en temps réel
   useEffect(() => {
     const interval = setInterval(() => {
-      const types = ["success", "error", "info", "warning"];
+      // const types = ["success", "error", "info", "warning"];
       const messages = [
         {
           type: "success",
@@ -61,10 +65,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     }, 15000); // Nouvelle notification toutes les 15 secondes
 
     return () => clearInterval(interval);
-  }, []);
+  });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100">
       <SideBar />
 
       <main
@@ -76,7 +80,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
         {!["dashboard", "sms", "contacts"].includes(activeMenu) && (
           <div className="p-8">
-            <div className="bg-white rounded-2xl p-12 shadow-lg text-center">
+            <div className="bg-white rounded-2xl p-12 shadow-sm text-center">
               <h2 className="text-2xl font-bold text-slate-900 mb-2">
                 Section en construction
               </h2>

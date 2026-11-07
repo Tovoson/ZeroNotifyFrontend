@@ -81,7 +81,7 @@ export const useSmsStore = create<SmsState>((set, get) => ({
       useTemplateStore.getState();
 
     try {
-      // ✅ Afficher la barre de progression
+      //  Afficher la barre de progression
       const total = isUseTemplate 
         ? destinatairesDynamique.length 
         : destinataires.length;
@@ -152,7 +152,7 @@ export const useSmsStore = create<SmsState>((set, get) => ({
     } catch (error: any) {
       console.error("Erreur envoi SMS:", error);
 
-      // ✅ Afficher l'erreur
+      //  Afficher l'erreur
       set({
         progressStatus: "error",
         progressPercent: 0,

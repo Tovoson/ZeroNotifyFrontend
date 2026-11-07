@@ -64,7 +64,7 @@ export const ModalError: React.FC = () => {
           <div className="grid grid-cols-2 gap-4">
             {/* SMS Envoyés */}
             {hasSuccess && (
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
+              <div className="bg-linear-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
                 <div className="flex items-center justify-between mb-3">
                   <div className="p-2 bg-green-100 rounded-lg">
                     <CheckCircle2 className="w-5 h-5 text-green-600" />
@@ -92,7 +92,7 @@ export const ModalError: React.FC = () => {
 
             {/* SMS Échoués */}
             {hasErrors && (
-              <div className="bg-gradient-to-br from-red-50 to-rose-50 rounded-xl p-6 border border-red-200">
+              <div className="bg-linear-to-br from-red-50 to-rose-50 rounded-xl p-6 border border-red-200">
                 <div className="flex items-center justify-between mb-3">
                   <div className="p-2 bg-red-100 rounded-lg">
                     <AlertCircle className="w-5 h-5 text-red-600" />
@@ -183,7 +183,7 @@ export const ModalError: React.FC = () => {
             </p>
             <button
               onClick={() => setShowCreateModal(false)}
-              className="px-6 py-3 bg-gradient-to-r from-slate-900 to-slate-700 text-white rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-200"
+              className="px-6 py-3 bg-gradient-to-r from-slate-900 to-slate-700 text-white rounded-xl font-semibold hover:shadow-sm hover:scale-105 transition-all duration-200"
             >
               Fermer
             </button>

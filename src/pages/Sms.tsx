@@ -53,7 +53,8 @@ export const Sms = () => {
 
   const { setActiveMenu } = useStores();
   const { user } = useAuthStore();
-  const { isUseTemplate, useTemplate, reInitializeTemplate } = useTemplateStore();
+  const { isUseTemplate, useTemplate, reInitializeTemplate } =
+    useTemplateStore();
   const navigate = useNavigate();
 
   // États pour les modales
@@ -89,7 +90,7 @@ export const Sms = () => {
     return (
       <Layout>
         <div className="flex items-center justify-center h-screen">
-          <div className="bg-white rounded-2xl p-8 shadow-lg text-center max-w-md">
+          <div className="bg-white rounded-2xl p-8 shadow-sm text-center max-w-md">
             <AlertCircle className="w-16 h-16 text-orange-500 mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-slate-900 mb-2">
               Authentification requise
@@ -121,7 +122,7 @@ export const Sms = () => {
     }
     handleSubmit(e);
     setShowConfirmModal(false);
-    navigate('/history')
+    navigate("/history");
   };
 
   return (
@@ -134,7 +135,9 @@ export const Sms = () => {
             <div className="bg-linear-to-br from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 p-6 rounded-2xl border border-blue-200 dark:border-blue-700">
               <Users className="w-8 h-8 text-blue-600 dark:text-blue-300 mb-2" />
               <p className="text-3xl font-bold text-blue-600 dark:text-blue-200">
-                {destinatairesDynamique.length === 0 ? nombreDestinataires: destinatairesDynamique.length}
+                {destinatairesDynamique.length === 0
+                  ? nombreDestinataires
+                  : destinatairesDynamique.length}
               </p>
               <p className="text-sm text-blue-700 dark:text-blue-300">
                 Destinataire{nombreDestinataires > 1 ? "s" : ""}
@@ -149,7 +152,7 @@ export const Sms = () => {
                 Segment{segmentsSMS() > 1 ? "s" : ""} par SMS
               </p>
             </div>
-            <div className="bg-linear-to-br from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 p-6 rounded-2xl border border-purple-200 dark:border-purple-700">
+            <div className="bg-slate-200 p-6 rounded-2xl border border-slate-100 dark:border-slate-600">
               <Clock className="w-8 h-8 text-purple-600 dark:text-purple-300 mb-2" />
               <p className="text-3xl font-bold text-purple-600 dark:text-purple-200">
                 {totalSMS}
@@ -161,7 +164,7 @@ export const Sms = () => {
           </div>
 
           {/* Type de SMS */}
-          <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-lg border border-slate-100 dark:border-gray-600 mb-6">
+          <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-gray-600 mb-6">
             <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
               Type d'envoi
             </h2>
@@ -171,7 +174,7 @@ export const Sms = () => {
                 onClick={() => setSmsType("simple")}
                 className={`p-4 rounded-xl border-2 transition-all duration-200 ${
                   smsType === "simple"
-                    ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-lg shadow-blue-500/20"
+                    ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-sm shadow-blue-500/20"
                     : "border-slate-200 dark:border-gray-600 hover:border-slate-300"
                 }`}
               >
@@ -189,7 +192,7 @@ export const Sms = () => {
                 onClick={() => setSmsType("groupe")}
                 className={`p-4 rounded-xl border-2 transition-all duration-200 ${
                   smsType === "groupe"
-                    ? "border-green-500 bg-green-50 dark:bg-green-900/30 shadow-lg shadow-green-500/20"
+                    ? "border-green-500 bg-green-50 dark:bg-green-900/30 shadow-sm shadow-green-500/20"
                     : "border-slate-200 dark:border-gray-600 hover:border-slate-300"
                 }`}
               >
@@ -207,7 +210,7 @@ export const Sms = () => {
                 onClick={() => setSmsType("planifie")}
                 className={`p-4 rounded-xl border-2 transition-all duration-200 ${
                   smsType === "planifie"
-                    ? "border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-lg shadow-purple-500/20"
+                    ? "border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-sm shadow-purple-500/20"
                     : "border-slate-200 dark:border-gray-600 hover:border-slate-300"
                 }`}
               >
@@ -252,9 +255,10 @@ export const Sms = () => {
                   </h3>
                 </div>
                 <p className="text-slate-600 dark:text-gray-400 mb-6">
-                  Vous êtes sur le point d'envoyer <strong>{totalSMS} SMS</strong> à{" "}
-                  <strong>{nombreDestinataires} destinataires</strong>. Cette action
-                  est irréversible.
+                  Vous êtes sur le point d'envoyer{" "}
+                  <strong>{totalSMS} SMS</strong> à{" "}
+                  <strong>{nombreDestinataires} destinataires</strong>. Cette
+                  action est irréversible.
                 </p>
                 <div className="flex gap-3">
                   <button
@@ -277,7 +281,7 @@ export const Sms = () => {
           )}
 
           {/* Expéditeur */}
-          <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-lg border border-slate-100 dark:border-gray-600 mb-6">
+          <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-gray-600 mb-6">
             <label className="block text-gray-900 dark:text-white text-sm font-bold mb-2">
               Expéditeur (optionnel)
             </label>
@@ -291,7 +295,7 @@ export const Sms = () => {
           </div>
 
           {/* Destinataires */}
-          <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-lg border border-slate-100 dark:border-gray-600 mb-6">
+          <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-gray-600 mb-6">
             <div className="flex items-center justify-between mb-4">
               <label className="block text-sm font-semibold text-slate-900 dark:text-white">
                 Destinataires{" "}
@@ -336,8 +340,6 @@ export const Sms = () => {
                   </button>
                 </div>
               )}
-
-              
             </div>
 
             {destinatairesDynamique.length > 0 && (
@@ -382,7 +384,9 @@ export const Sms = () => {
                       <input
                         type="tel"
                         value={dest.numero}
-                        onChange={(e) => updateDestinataire(index, e.target.value)}
+                        onChange={(e) =>
+                          updateDestinataire(index, e.target.value)
+                        }
                         placeholder={`+261 34 00 000 0${index + 1}`}
                         className="w-full px-4 py-2 text-gray-800 dark:text-gray-200 dark:bg-gray-600 border border-slate-300 dark:border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all font-mono shadow-sm"
                       />
@@ -418,7 +422,7 @@ export const Sms = () => {
 
           {/* Date planifiée */}
           {smsType === "planifie" && (
-            <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-lg border border-slate-100 dark:border-gray-600 mb-6">
+            <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-gray-600 mb-6">
               <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">
                 <Calendar className="w-4 h-4 inline mr-2" />
                 Date et heure d'envoi
@@ -434,7 +438,7 @@ export const Sms = () => {
           )}
 
           {/* Contenu */}
-          <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-lg border border-slate-100 dark:border-gray-600 mb-6">
+          <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-gray-600 mb-6">
             <div className="flex items-center justify-between mb-2">
               <label className="block text-sm font-semibold text-slate-900 dark:text-white">
                 Message
@@ -474,14 +478,14 @@ export const Sms = () => {
               <span
                 className={`font-medium ${
                   caractereRestants(
-                    isUseTemplate ? useTemplate.contenuTemplate : contenu
+                    isUseTemplate ? useTemplate.contenuTemplate : contenu,
                   ) < 20
                     ? "text-orange-500"
                     : "text-slate-500 dark:text-gray-400"
                 }`}
               >
                 {caractereRestants(
-                  isUseTemplate ? useTemplate.contenuTemplate : contenu
+                  isUseTemplate ? useTemplate.contenuTemplate : contenu,
                 )}{" "}
                 caractères restants dans ce segment
               </span>
@@ -559,16 +563,17 @@ export const Sms = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`flex-1 px-6 py-3 bg-linear-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
+              className={`flex-1 px-6 py-3 bg-linear-to-rtext-white rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
                 loading
                   ? "opacity-50 cursor-not-allowed"
-                  : "hover:shadow-lg hover:shadow-blue-500/50"
+                  : "hover:shadow-sm hover:shadow-blue-500/50"
               }`}
             >
               {loading ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  {smsType === "planifie" ? "Planification" : "Envoi"} en cours...
+                  {smsType === "planifie" ? "Planification" : "Envoi"} en
+                  cours...
                 </>
               ) : (
                 <>

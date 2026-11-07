@@ -94,7 +94,7 @@ export const Contacts: React.FC = () => {
       <div className="p-8">
         <ContactModal />
 
-        <div className="bg-white rounded-2xl shadow-lg border border-slate-100 mb-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 mb-6">
           <div className="p-6 border-b border-slate-200">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-slate-900">
@@ -116,7 +116,7 @@ export const Contacts: React.FC = () => {
                     setShowAddContactModal(true);
                     reInitialiserContact();
                   }}
-                  className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all flex items-center gap-2"
+                  className="px-4 py-2 bg-gradient-to-rtext-white rounded-xl hover:shadow-sm transition-all flex items-center gap-2"
                 >
                   <Plus className="w-4 h-4" />
                   <span className="font-semibold text-sm">Nouveau Contact</span>
@@ -272,7 +272,7 @@ export const Contacts: React.FC = () => {
 
         {/* Statistiques des groupes */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold text-slate-900">Clients</h3>
               <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -285,7 +285,7 @@ export const Contacts: React.FC = () => {
             <p className="text-sm text-slate-500 mt-1">contacts actifs</p>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold text-slate-900">Partenaires</h3>
               <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
@@ -298,7 +298,7 @@ export const Contacts: React.FC = () => {
             <p className="text-sm text-slate-500 mt-1">contacts actifs</p>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold text-slate-900">Équipe</h3>
               <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">

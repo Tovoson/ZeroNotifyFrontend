@@ -182,7 +182,7 @@ const categoriesTemplate = [
               <button
                 onClick={createTemplate}
                 disabled={!newTemplate.nom || !newTemplate.contenu}
-                className="flex-1 px-4 py-3 bg-linear-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-4 py-3 bg-linear-to-rtext-white rounded-xl font-semibold hover:shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Créer le template
               </button>
@@ -259,7 +259,7 @@ const categoriesTemplate = [
                 setShowPreviewModal(false);
                 setActiveMenu('sms');
               }}
-              className="w-full mt-6 px-4 py-3 bg-linear-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
+              className="w-full mt-6 px-4 py-3 bg-linear-to-rtext-white rounded-xl font-semibold hover:shadow-sm transition-all"
             >
               Utiliser ce template
             </button>
@@ -268,7 +268,7 @@ const categoriesTemplate = [
       )}
 
       {/* Search & Filter */}
-      <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+      <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -282,7 +282,7 @@ const categoriesTemplate = [
           </div>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="px-6 py-3 bg-linear-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all flex items-center gap-2 whitespace-nowrap"
+            className="px-6 py-3 bg-linear-to-rtext-white rounded-xl font-semibold hover:shadow-sm transition-all flex items-center gap-2 whitespace-nowrap"
           >
             <Plus className="w-5 h-5" />
             Nouveau template
@@ -300,7 +300,7 @@ const categoriesTemplate = [
               onClick={() => setSelectedCategory(category.id)}
               className={`flex items-center gap-2 px-4 py-3 rounded-xl font-semibold transition-all ${
                 selectedCategory === category.id
-                  ? 'bg-linear-to-r from-blue-500 to-purple-600 text-white shadow-lg'
+                  ? 'bg-linear-to-rtext-white shadow-sm'
                   : 'bg-white text-slate-700 hover:bg-slate-50'
               }`}
             >
@@ -320,13 +320,13 @@ const categoriesTemplate = [
 
       {/* Templates Grid */}
       {filteredTemplates.length === 0 ? (
-        <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
+        <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
           <MessageSquare className="w-16 h-16 text-slate-300 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-slate-900 mb-2">Aucun template trouvé</h3>
           <p className="text-slate-500 mb-6">Créez votre premier template pour commencer</p>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="px-6 py-3 bg-linear-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all inline-flex items-center gap-2"
+            className="px-6 py-3 bg-linear-to-rtext-white rounded-xl font-semibold hover:shadow-sm transition-all inline-flex items-center gap-2"
           >
             <Plus className="w-5 h-5" />
             Créer un template
@@ -339,7 +339,7 @@ const categoriesTemplate = [
             return (
               <div
                 key={template.id}
-                className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all hover:-translate-y-1 relative"
+                className="bg-white rounded-2xl shadow-sm p-6 hover:shadow-xl transition-all hover:-translate-y-1 relative"
               >
                 {/* Badge Favori */}
                 {template.favoriTemplate && (
@@ -430,7 +430,7 @@ const categoriesTemplate = [
       )}
 
       {/* Info section */}
-      <div className="mt-8 bg-linear-to-r from-blue-500 to-purple-600 rounded-2xl p-8 text-white">
+      <div className="mt-8 bg-linear-to-rrounded-2xl p-8 text-white">
         <h3 className="text-2xl font-bold mb-4">💡 Conseils pour vos templates</h3>
         <ul className="space-y-2">
           <li className="flex items-start gap-3">

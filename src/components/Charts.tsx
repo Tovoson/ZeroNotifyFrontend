@@ -130,7 +130,7 @@ export const Charts = () => {
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Évolution des SMS */}
-        <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-lg border border-slate-100 dark:border-gray-600">
+        <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-gray-600">
           <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
             Évolution des envois
           </h2>
@@ -159,7 +159,7 @@ export const Charts = () => {
         </div>
 
         {/* Distribution */}
-        <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-lg border border-slate-100 dark:border-gray-600">
+        <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-gray-600">
           <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
             Distribution ce mois
           </h2>
@@ -213,7 +213,7 @@ export const Charts = () => {
       </div>
 
       {/* Taux de réussite */}
-      <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-lg border border-slate-100 dark:border-gray-600 mb-6">
+      <div className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-gray-600 mb-6">
         <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
           Taux de réussite - 7 derniers jours
         </h2>

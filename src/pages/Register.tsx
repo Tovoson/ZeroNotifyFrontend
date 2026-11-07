@@ -62,7 +62,7 @@ const Register: React.FC = () => {
   const passwordStrength = getPasswordStrength();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center p-4">
       <div className="w-full max-w-2xl">
         {/* Logo et Titre */}
         <div className="text-center mb-8">
@@ -295,7 +295,7 @@ const Register: React.FC = () => {
               disabled={isLoading}
               className={`w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${isLoading
                   ? "opacity-50 cursor-not-allowed"
-                  : "hover:shadow-lg hover:shadow-purple-500/50 transform hover:-translate-y-0.5"
+                  : "hover:shadow-sm hover:shadow-purple-500/50 transform hover:-translate-y-0.5"
                 }`}
             >
               {isLoading ? (

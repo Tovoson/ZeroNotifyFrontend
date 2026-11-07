@@ -18,7 +18,6 @@ import TemplatesSMS from "./pages/Template";
 import { useTheme } from "./hooks/useTheme";
 import { useEffect } from "react";
 
-// Composant de protection de route (pour s'assurer que l'utilisateur est connecté)
 const ProtectedRoute: React.FC<{ element: React.ReactNode }> = ({
   element,
 }) => {

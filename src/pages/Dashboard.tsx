@@ -79,28 +79,28 @@ export const Dashboard = () => {
         label: "Total SMS",
         value: totalSmsIndividuels.toString(),
         change: `${allSms.length} envoi${allSms.length > 1 ? 's' : ''}`,
-        color: "bg-gradient-to-br from-blue-500 to-blue-600",
+        color: "bg-blue-500",
         icon: Send
       },
       {
         label: "SMS Envoyés",
         value: smsEnvoyes.toString(),
         change: `${tauxSucces}% de succès`,
-        color: "bg-gradient-to-br from-green-500 to-green-600",
+        color: "bg-green-500",
         icon: CheckCircle
       },
       {
         label: "Planifiés",
         value: smsPlanifies.toString(),
         change: `${((smsPlanifies / totalSmsIndividuels) * 100 || 0).toFixed(0)}% du total`,
-        color: "bg-gradient-to-br from-purple-500 to-purple-600",
+        color: "bg-purple-500",
         icon: Clock
       },
       {
         label: "En Attente / Échecs",
         value: (smsEnAttente + smsEchecs).toString(),
         change: `${smsEnAttente} en attente, ${smsEchecs} échecs`,
-        color: "bg-gradient-to-br from-orange-500 to-red-600",
+        color: "bg-yellow-500",
         icon: XCircle
       }
     ];
@@ -170,7 +170,7 @@ export const Dashboard = () => {
             return (
               <div
                 key={index}
-                className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-100 dark:border-gray-600"
+                className="bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-100 dark:border-gray-600"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -185,7 +185,7 @@ export const Dashboard = () => {
                     </span>
                   </div>
                   <div
-                    className={`w-12 h-12 ${stat.color} rounded-xl flex items-center justify-center shadow-lg`}
+                    className={`w-12 h-12 ${stat.color} rounded-xl flex items-center justify-center shadow-sm`}
                   >
                     <Icon className="w-6 h-6 text-white" />
                   </div>
@@ -199,7 +199,7 @@ export const Dashboard = () => {
 
         {/* Activity & Quick Actions */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-lg border border-slate-100 dark:border-gray-600">
+          <div className="lg:col-span-2 bg-white dark:bg-gray-700 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-gray-600">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-slate-900 dark:text-white">
                 Activité Récente
@@ -258,7 +258,7 @@ export const Dashboard = () => {
             </div>
           </div>
 
-          <div className="bg-linear-to-br from-blue-500 to-purple-600 rounded-2xl p-6 shadow-lg text-white">
+          <div className="bg-white rounded-2xl p-6 shadow-sm text-slate-700">
             <h2 className="text-xl font-bold mb-6">Actions Rapides</h2>
             <div className="space-y-3">
               <button

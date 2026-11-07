@@ -20,13 +20,13 @@ export const SideBar = () => {
           className={`flex items-center gap-3 ${!sidebarOpen && "justify-center"
             }`}
         >
-          <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+          <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-sm">
             <Zap className="w-6 h-6" />
           </div>
           {sidebarOpen && (
             <div>
               <h2 className="font-bold text-lg">ZeroNotify</h2>
-              <p className="text-xs text-slate-400">Service SMS</p>
+            
             </div>
           )}
         </div>
@@ -43,7 +43,7 @@ export const SideBar = () => {
       </div>
 
       <nav className="p-4 space-y-2">
-        {menuItems.map((item: any) => {
+        {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeMenu === item.id;
           return (
@@ -52,7 +52,7 @@ export const SideBar = () => {
               key={item.path}
               onClick={() => setActiveMenu(item.id)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${isActive
-                ? "bg-linear-to-r from-blue-500 to-purple-600 shadow-lg shadow-blue-500/50"
+                ? "bg-slate-700 shadow-sm"
                 : "hover:bg-slate-700/50"
                 }`}
             >
@@ -71,7 +71,7 @@ export const SideBar = () => {
         
         <button
           onClick={() => logout()}
-          className="absolute w-11 mb-4 right-4 bottom-20 p-3 bg-slate-600 hover:bg-slate-700 rounded-xl transition-colors flex items-center gap-2 shadow-lg"
+          className="absolute w-11 mb-4 right-4 bottom-20 p-3 bg-slate-600 hover:bg-slate-700 rounded-xl transition-colors flex items-center gap-2 shadow-sm"
         >
           <LogOut className="w-5 h-5" />
         </button>

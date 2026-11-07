@@ -102,7 +102,7 @@ export const ContactModal = () => {
               </button>
               <button
                 onClick={() => isEditing ? handleModifierContact(user?.id) : handleAddContact(user?.id)}
-                className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
+                className="flex-1 px-4 py-3 bg-gradient-to-rtext-white rounded-xl font-semibold hover:shadow-sm transition-all"
               >
                 Ajouter
                 {modifContact ? "Modifier": "Ajouter"}

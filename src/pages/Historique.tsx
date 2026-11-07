@@ -352,7 +352,7 @@ export const Historique = () => {
         )}
 
         {/* Filtres et recherche */}
-        <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 mb-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-6">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -411,7 +411,7 @@ export const Historique = () => {
 
         {/* Statistiques rapides */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-slate-500 text-sm mb-1">Total SMS</p>
@@ -422,7 +422,7 @@ export const Historique = () => {
               <MessageSquare className="w-12 h-12 text-slate-300" />
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-slate-500 text-sm mb-1">Envoyés</p>
@@ -433,7 +433,7 @@ export const Historique = () => {
               <CheckCircle className="w-12 h-12 text-green-300" />
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-slate-500 text-sm mb-1">Planifiés</p>
@@ -444,7 +444,7 @@ export const Historique = () => {
               <Clock className="w-12 h-12 text-orange-300" />
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-slate-500 text-sm mb-1">Échecs</p>
@@ -458,7 +458,7 @@ export const Historique = () => {
         </div>
 
         {/* Liste de l'historique */}
-        <div className="bg-white rounded-2xl shadow-lg border border-slate-100">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100">
           <div className="p-6 border-b border-slate-200">
             <h2 className="text-xl font-bold text-slate-900">
               Historique des envois ({filteredHistorique.length})
@@ -491,7 +491,7 @@ export const Historique = () => {
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-linear-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-linear-to-brrounded-xl flex items-center justify-center">
                           <Send className="w-6 h-6 text-white" />
                         </div>
                         <div>

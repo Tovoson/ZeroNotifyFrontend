@@ -149,7 +149,7 @@ const Services = () => {
   return (
     <Layout>
       <Header />
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20 px-8">
         <div className="max-w-6xl mx-auto text-center">
@@ -164,7 +164,7 @@ const Services = () => {
               onClick={() => setBillingCycle('monthly')}
               className={`px-6 py-3 rounded-lg font-semibold transition-all ${
                 billingCycle === 'monthly'
-                  ? 'bg-white text-purple-600 shadow-lg'
+                  ? 'bg-white text-purple-600 shadow-sm'
                   : 'text-white hover:bg-white/10'
               }`}
             >
@@ -174,7 +174,7 @@ const Services = () => {
               onClick={() => setBillingCycle('yearly')}
               className={`px-6 py-3 rounded-lg font-semibold transition-all ${
                 billingCycle === 'yearly'
-                  ? 'bg-white text-purple-600 shadow-lg'
+                  ? 'bg-white text-purple-600 shadow-sm'
                   : 'text-white hover:bg-white/10'
               }`}
             >
@@ -208,7 +208,7 @@ const Services = () => {
                 )}
                 
                 <div className="p-8">
-                  <div className={`w-16 h-16 bg-gradient-to-br ${plan.color} rounded-xl flex items-center justify-center mb-4`}>
+                  <div className={`w-16 h-16 bg-linear-to-br ${plan.color} rounded-xl flex items-center justify-center mb-4`}>
                     <Icon className="w-8 h-8 text-white" />
                   </div>
                   
@@ -237,7 +237,7 @@ const Services = () => {
                     onClick={() => setSelectedPlan(plan.id)}
                     className={`w-full py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
                       plan.popular
-                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:shadow-lg'
+                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:shadow-sm'
                         : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
                     }`}
                   >
@@ -263,7 +263,7 @@ const Services = () => {
             return (
               <div
                 key={idx}
-                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
+                className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1"
               >
                 <div className={`w-12 h-12 ${service.color} rounded-xl flex items-center justify-center mb-4`}>
                   <Icon className="w-6 h-6 text-white" />
@@ -288,7 +288,7 @@ const Services = () => {
               const Icon = feature.icon;
               return (
                 <div key={idx} className="text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 bg-linear-to-brrounded-full flex items-center justify-center mx-auto mb-4">
                     <Icon className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-slate-900 mb-2">{feature.title}</h3>
@@ -308,9 +308,9 @@ const Services = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, idx) => (
-            <div key={idx} className="bg-white rounded-2xl p-6 shadow-lg">
+            <div key={idx} className="bg-white rounded-2xl p-6 shadow-sm">
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                <div className="w-12 h-12 bg-linear-to-brrounded-full flex items-center justify-center text-white font-bold">
                   {testimonial.avatar}
                 </div>
                 <div>

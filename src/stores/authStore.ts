@@ -4,13 +4,6 @@ import api from "../utils/api";
 import toast from "react-hot-toast";
 import { persist } from "zustand/middleware";
 
-const users = {
-  id: 1,
-  nom: "Tovo",
-  email: "tovo@gmail.com",
-  token: "eyJhbGciOi",
-};
-
 const initLoginData = {
   email: "",
   mot_de_passe: "",
@@ -47,7 +40,7 @@ export const useAuthStore = create<AuthState>()(
           registerData: { ...state.registerData, [field]: value },
         }));
       },
-      login: async (navigate: any) => {
+      login: async (navigate) => {
         const { loginData } = get();
         set({ isLoading: true });
 
@@ -60,23 +53,29 @@ export const useAuthStore = create<AuthState>()(
         console.log("logindata", loginData);
 
         try {
-          const response = await api.post("/auth/login", loginData);
+          // const response = await api.post("/auth/login", loginData);
 
-          console.log("response : ", response);
+          // const user = {
+          //   id: response.data.data.id,
+          //   nom: response.data.data.nom,
+          //   email: response.data.data.email,
+          //   entreprise: response.data.data.entreprise,
+          //   token: response.data.token,
+          // };
 
           const user = {
-            id: response.data.data.id,
-            nom: response.data.data.nom,
-            email: response.data.data.email,
-            entreprise: response.data.data.entreprise,
-            token: response.data.token,
+            id: 1,
+            nom: "tovo",
+            email: "tovo@gmail.com",
+            entreprise: "Tovo Entreprise",
+            token: "eyJhbGciOi",
           };
 
           set({ user, loginData: initLoginData });
 
           toast.success(`Bienvenue, ${user.nom} !`);
           navigate("/dashboard");
-        } catch (error: any) {
+        } catch (error) {
           const message =
             error.response?.data?.message || "Identifiants incorrects.";
           toast.error(message);
@@ -84,7 +83,7 @@ export const useAuthStore = create<AuthState>()(
           set({ isLoading: false });
         }
       },
-      register: async (navigate: any) => {
+      register: async (navigate) => {
         const {registerData} = get()
 
         const user = {
